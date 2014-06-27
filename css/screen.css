@@ -89,7 +89,10 @@ ul.posts {
 .title {
   color: #a00;
   font-weight: bold;
-  margin-bottom: 4em;
+  margin-bottom: 2em;
+}
+.logo {
+  font-size: 200%;
 }
 
   .site .title a {
