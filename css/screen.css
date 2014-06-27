@@ -82,7 +82,7 @@ ul.posts {
   font-size: 110%;
   text-align: justify;
   width: 40em;
-  margin: 3em auto 2em auto;
+  margin: 3em auto 4em auto;
   line-height: 1.5em;
 }
 
@@ -92,7 +92,7 @@ ul.posts {
   margin-bottom: 2em;
 }
 .logo {
-  font-size: 200%;
+  font-size: 160%;
 }
 
   .site .title a {
