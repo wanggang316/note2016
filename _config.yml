@@ -3,3 +3,9 @@ pygments: true
 baseurl: /
 
 
+
+# comments :
+#    provider : duoshuo
+#    duoshuo :
+#      short_name : wwwlife
+
