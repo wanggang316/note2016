@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 关于Core Animation
+title: 关于CoreAnimation
 ---
 
 {{ page.title }}
@@ -16,7 +16,7 @@ Core Animation是IOS和OS X平台上用来制作你的应用中的动画和其�
 如果您正在编写iOS应用程序，那么你正在使用Core Animation不管你知道与否。同样，如果你正在编写OS X应用程序，你可以毫不费力地使用Core Animation。Core Animation在AppKit和UIKit的下层并且紧密的与Cocoa和Cocoa Touch中的视图相结合。当然，Core Animation也能通过你的视图来暴露接口，让你能更细致的控制你的动画。
 
 
-[a1]: ../images/2014-07-03.jpg  "Core Animation"
+[a1]: /images/CoreAnimation.jpg  "Core Animation"
 
 ![Alt text][a1]
 
