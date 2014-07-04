@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 关于CoreAnimation
+title: CoreAnimation介绍
 ---
 
 {{ page.title }}
@@ -17,10 +17,7 @@ Core Animation是IOS和OS X平台上用来制作你的应用中的动画和其�
 
 
 [a1]: /images/CoreAnimation.jpg  "Core Animation"
-
-
 ![Alt text][a1]
-
 
 
 你可能从来都不需要直接使用Core Animation，但是当你操作时你就会发现Core Animation在你的应用中扮演的是很基础的角色。
@@ -30,9 +27,8 @@ Core Animation是IOS和OS X平台上用来制作你的应用中的动画和其�
 Core Animation本身并不是一个绘画系统。它是在硬件上合成和操作你的应用的基础。这一基础的核心是能管理和操作你的内容的__layer对象__。一个layer能把你的内容转换成很容易被硬件操作的位图。在大多数应用中，layers被用于操作视图的一种方式，当然，你也可以根据你的需要单独创建layers。
 
 -------
-<center>
+
 关联章节：“[Core Animation Basic](https://developer.apple.com/library/ios/documentation/Cocoa/Conceptual/CoreAnimation_guide/CoreAnimationBasics/CoreAnimationBasics.html#//apple_ref/doc/uid/TP40004514-CH2-SW3)”，“[Setting Up Layer Ojbect](https://developer.apple.com/library/ios/documentation/Cocoa/Conceptual/CoreAnimation_guide/SettingUpLayerObjects/SettingUpLayerObjects.html#//apple_ref/doc/uid/TP40004514-CH13-SW12)”
-</center>
 
 ------
 
