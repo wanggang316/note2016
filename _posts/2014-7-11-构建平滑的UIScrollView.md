@@ -16,7 +16,7 @@ scrollView的生命周期
 构建自己的scrollview
 
 
-
+http://blog.csdn.net/gavinming/article/details/7218613
 
 
 
