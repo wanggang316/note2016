@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<!--
+    Type on Strap jekyll theme v2.0.0
+    Copyright 2016-2019 Sylhare
+    Theme free for personal and commercial use under the MIT license
+    https://github.com/sylhare/Type-on-Strap/blob/master/LICENSE
+-->
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!-- Main JS (navbar.js, katex_init.js and masonry_init.js)-->
+    <script defer=true src="/assets/js/main.min.js"></script>
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="/assets/css/main.css">
+
+    <!--Favicon-->
+    <link rel="shortcut icon" href="/assets/favicon.ico" type="image/x-icon">
+
+    <!-- Canonical -->
+    <link rel="canonical" href="https://wanggang316.github.io/2018/08/21/Python%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E5%A4%84%E7%90%86%E5%BA%93Pandas.html">
+
+    <!-- RSS -->
+    <link rel="alternate" type="application/atom+xml" title="Gump's note" href="https://wanggang316.github.io/feed.xml"/>
+    
+    
+
+    <!-- KaTeX 0.8.3 -->
+    <!-- if you have any issue check https://github.com/KaTeX/KaTeX -->
+    
+    <script src="/assets/js/vendor/katex.min.js"></script>
+    
+
+    <!-- Google Analytics -->
+     <!-- End Google Analytics -->
+
+    <!-- seo tags -->
+    <!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Python数据分析处理库Pandas | Gump’s note</title>
+<meta name="generator" content="Jekyll v4.0.0" />
+<meta property="og:title" content="Python数据分析处理库Pandas" />
+<meta name="author" content="Gump Wang" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Pandas 基于 Numpy, 做数据处理使用。" />
+<meta property="og:description" content="Pandas 基于 Numpy, 做数据处理使用。" />
+<link rel="canonical" href="https://wanggang316.github.io/2018/08/21/Python%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E5%A4%84%E7%90%86%E5%BA%93Pandas.html" />
+<meta property="og:url" content="https://wanggang316.github.io/2018/08/21/Python%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E5%A4%84%E7%90%86%E5%BA%93Pandas.html" />
+<meta property="og:site_name" content="Gump’s note" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-08-21T00:00:00+08:00" />
+<script type="application/ld+json">
+{"mainEntityOfPage":{"@type":"WebPage","@id":"https://wanggang316.github.io/2018/08/21/Python%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E5%A4%84%E7%90%86%E5%BA%93Pandas.html"},"author":{"@type":"Person","name":"Gump Wang"},"url":"https://wanggang316.github.io/2018/08/21/Python%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E5%A4%84%E7%90%86%E5%BA%93Pandas.html","headline":"Python数据分析处理库Pandas","dateModified":"2018-08-21T00:00:00+08:00","datePublished":"2018-08-21T00:00:00+08:00","description":"Pandas 基于 Numpy, 做数据处理使用。","@type":"BlogPosting","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+    <!-- Manual seo tags -->
+    <!--
+    <title>Python数据分析处理库Pandas | Gump's note</title>
+    <meta name="description" content="Pandas 基于 Numpy, 做数据处理使用。">
+    -->
+</head>
+
+  <body>
+    <header class="site-header">
+
+    <!-- Logo and title -->
+	<div class="branding">
+        
+		<a href="/">
+			<img alt="logo img" class="avatar" src="/assets/img/triangle.png" />
+		</a>
+        
+
+		<h1 class="site-title">
+			<a aria-label="Gump's note" href="/">
+        Gump's note
+      </a>
+		</h1>
+	</div>
+
+    <!-- Toggle menu -->
+    <nav class="clear">
+    <a aria-label="pull" id="pull" class="toggle" href="#">
+    <i class="fa fa-bars fa-lg"></i>
+    </a>
+
+    <!-- Menu -->
+    <ul class="hide">
+        
+
+        
+            
+            
+        
+            
+            <li class="separator"> | </li>
+            <li>
+                <a class="clear" aria-label="About" title="About" href="/about/">
+                     About 
+                </a>
+            </li>
+            
+            
+        
+            
+            <li class="separator"> | </li>
+            <li>
+                <a class="clear" aria-label="Gallery" title="Gallery" href="/gallery/">
+                     Gallery 
+                </a>
+            </li>
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            <li class="separator"> | </li>
+            <li>
+                <a class="clear" aria-label="Portfolio" title="Portfolio" href="/portfolio/">
+                     Portfolio 
+                </a>
+            </li>
+            
+            
+        
+            
+            
+        
+            
+            <li class="separator"> | </li>
+            <li>
+                <a class="clear" aria-label="Search" title="Search" href="/search/">
+                     <i class="fa fa-search" aria-hidden="true"></i>
+                    
+                </a>
+            </li>
+            
+            
+        
+            
+            <li class="separator"> | </li>
+            <li>
+                <a class="clear" aria-label="Tags" title="Tags" href="/tags/">
+                     <i class="fa fa-tags" aria-hidden="true"></i>
+                    
+                </a>
+            </li>
+            
+            
+        
+            
+            
+        
+    </ul>
+
+	</nav>
+</header>
+
+    <div class="content">
+      
+
+<meta property="og:url"          content="/2018/08/21/Python%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E5%A4%84%E7%90%86%E5%BA%93Pandas.html" />
+<meta property="og:type"         content="article" />
+<meta property="og:title"        content="Python数据分析处理库Pandas" />
+<meta property="og:description"  content="Pandas 基于 Numpy, 做数据处理使用。
+" />
+<meta property="og:image"        content="assets/img/pexels/travel.jpeg" />
+
+
+<article >
+  <header id="main" style="">
+    
+      <h1 id="Python%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E5%A4%84%E7%90%86%E5%BA%93Pandas" class="title">Python数据分析处理库Pandas</h1>
+      
+
+
+<div class="post-info">
+    <p class="meta">
+      August 21, 2018
+    </p></div>
+
+    
+  </header>
+  <section class="post-content">
+  
+      <p>Pandas 基于 Numpy, 做数据处理使用。</p>
+
+<h2 id="数据读取">数据读取</h2>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">pandas</span>
+<span class="n">food_info</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s">"food_info.csv"</span><span class="p">)</span>
+<span class="nb">type</span><span class="p">(</span><span class="n">food_info</span><span class="p">)</span> 
+<span class="c1"># =&gt; &lt;class 'pandas.core.frame.DataFrame'&gt; (pandas 核心结构，类似矩阵)
+</span>
+<span class="n">food_info</span><span class="o">.</span><span class="n">dtypes</span>
+<span class="c1"># =&gt; NDB_No               int64
+# =&gt; Shrt_Desc           object
+# =&gt; Water_(g)          float64
+# =&gt; Energ_Kcal           int64
+# =&gt; Protein_(g)        float64
+# =&gt; ...
+# =&gt; dtype: object
+</span>
+<span class="c1"># pandas 中，类型如下：
+# object - string value
+# int - integer value
+# float - float value
+</span><span class="err">$</span> <span class="n">datetime</span> <span class="o">-</span> <span class="n">time</span> <span class="n">value</span>
+<span class="c1"># bool - boolean value
+</span>
+<span class="c1"># 显示头部数据，默认前 5 个
+</span><span class="n">food_info</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<span class="c1"># 显示头 3 条数据
+</span><span class="n">food_info</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="c1"># 显示尾数据
+</span><span class="n">food_info</span><span class="o">.</span><span class="n">tail</span><span class="p">()</span>
+
+<span class="c1"># 显示列名
+</span><span class="n">food_info</span><span class="o">.</span><span class="n">columns</span>
+<span class="c1"># =&gt; Index(['NDB_No', 'Shrt_Desc', 'Water_(g)', 'Energ_Kcal', 'Protein_(g)',
+# =&gt;        ...
+# =&gt;        'Cholestrl_(mg)'],
+# =&gt;       dtype='object')
+</span>
+<span class="c1"># 显示维度
+</span><span class="n">food_info</span><span class="o">.</span><span class="n">shape</span>
+<span class="c1"># =&gt; (8618, 36)
+</span></code></pre></div></div>
+
+<h2 id="索引与计算">索引与计算</h2>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 按行取数据
+# 获取第 0 行数据
+</span><span class="n">food_info</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="c1"># 获取第 3-6 行数据
+</span><span class="n">food_info</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="mi">3</span><span class="p">:</span><span class="mi">6</span><span class="p">]</span>
+<span class="c1"># 获取第 2、5、10 行数据
+</span><span class="n">food_info</span><span class="o">.</span><span class="n">loc</span><span class="p">[[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">]]</span>
+
+<span class="c1"># 按列取数据
+# 列名取值
+</span><span class="n">food_info</span><span class="p">[</span><span class="s">"NDB_No"</span><span class="p">]</span>
+<span class="c1"># 取其中某几列
+</span><span class="n">food_info</span><span class="p">[[</span><span class="s">"Zinc_(mg)"</span><span class="p">,</span> <span class="s">"Copper_(mg)"</span><span class="p">]]</span>
+<span class="c1"># 获取单位为 "(g)" 的列
+# 1. 将列名专为 list
+</span><span class="n">col_names</span> <span class="o">=</span> <span class="n">food_info</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+<span class="n">gram_columns</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">col_names</span><span class="p">:</span>
+	<span class="k">if</span> <span class="n">c</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s">"(g)"</span><span class="p">):</span>
+		<span class="n">gram_columns</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+<span class="n">gram_df</span> <span class="o">=</span> <span class="n">food_info</span><span class="p">[</span><span class="n">gram_columns</span><span class="p">]</span>
+
+<span class="c1"># 加减乘除操作
+# 对每个值进行除 1000
+</span><span class="n">div_1000</span> <span class="o">=</span> <span class="n">food_info</span><span class="p">[</span><span class="s">"Iron_(mg)"</span><span class="p">]</span> <span class="o">/</span> <span class="mi">1000</span>
+<span class="c1"># 对应相乘
+</span><span class="n">water_energy</span> <span class="o">=</span> <span class="n">food_info</span><span class="p">[</span><span class="s">"Water_(g)"</span><span class="p">]</span> <span class="o">*</span> <span class="n">food_info</span><span class="p">[</span><span class="s">"Energ_Kcal"</span><span class="p">]</span>
+
+<span class="c1"># 添加一列
+</span><span class="n">iron_grams</span> <span class="o">=</span> <span class="n">food_info</span><span class="p">[</span><span class="s">"Iron_(mg)"</span><span class="p">]</span> <span class="o">/</span> <span class="mi">1000</span>
+<span class="n">food_info</span><span class="p">[</span><span class="s">"Iron_(g)"</span><span class="p">]</span> <span class="o">=</span> <span class="n">iron_grams</span> 
+
+<span class="c1"># 极值
+</span><span class="n">max_calories</span> <span class="o">=</span> <span class="n">food_info</span><span class="p">[</span><span class="s">"Energ_Kcal"</span><span class="p">]</span><span class="o">.</span><span class="nb">max</span><span class="p">()</span>
+
+<span class="c1"># 制定列排序，默认从小到大
+</span><span class="n">food_info</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s">"Sodium_(mg)"</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h2 id="数据预处理实例">数据预处理实例</h2>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 泰坦尼克生还实例
+</span><span class="n">titanic_survival</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s">"itanic_train.csv"</span><span class="p">)</span>
+
+<span class="n">age</span> <span class="o">=</span> <span class="n">titanic_survival</span><span class="p">[</span><span class="s">"Age"</span><span class="p">]</span>
+<span class="n">age_is_null</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">isnull</span><span class="p">(</span><span class="n">age</span><span class="p">)</span>
+<span class="c1"># =&gt; 0 False
+# =&gt; 1 False
+# =&gt; 2 True
+# =&gt; ...
+</span>
+<span class="c1"># age 为 null 当作索引取值
+</span><span class="n">age_null_true</span> <span class="o">=</span> <span class="n">age</span><span class="p">[</span><span class="n">age_is_null</span><span class="p">]</span>
+<span class="c1"># =&gt; 2 NaN
+# =&gt; ...
+</span>
+<span class="c1"># 缺失值长度
+</span><span class="n">age_null_count</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">age_null_true</span><span class="p">)</span>
+
+<span class="c1"># 计算平均年龄
+</span><span class="n">mean_age</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">titanic_survival</span><span class="p">[</span><span class="s">"Age"</span><span class="p">])</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">titanic_survival</span><span class="p">[</span><span class="s">"Age"</span><span class="p">])</span>
+<span class="c1"># =&gt; nan (因为有缺失值)
+</span>
+<span class="n">good_ages</span> <span class="o">=</span> <span class="n">titanic_survival</span><span class="p">[</span><span class="s">"Age"</span><span class="p">][</span><span class="n">age_is_null</span> <span class="o">==</span> <span class="bp">False</span><span class="p">]</span>
+<span class="n">correct_mean_age</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">good_ages</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">good_ages</span><span class="p">)</span>
+<span class="c1"># =&gt; 29.669
+</span>
+<span class="c1"># pandas 均值函数
+</span><span class="n">correct_mean_age</span> <span class="o">=</span> <span class="n">titanic_survival</span><span class="p">[</span><span class="s">"Age"</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+
+<span class="c1"># 每个船舱等级船票均价
+# 1. 遍历计算
+</span><span class="n">passenger_classes</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+<span class="n">fares_by_class</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">this_class</span> <span class="ow">in</span> <span class="n">passenger_classes</span><span class="p">:</span>
+	<span class="n">pclass_rows</span> <span class="o">=</span> <span class="n">titanic_survival</span><span class="p">[</span><span class="n">titanic_survival</span><span class="p">[</span><span class="s">"Pclass"</span><span class="p">]</span> <span class="o">==</span> <span class="n">this_class</span><span class="p">]</span>
+	<span class="n">pclass_fares</span> <span class="o">=</span> <span class="n">pclass_rows</span><span class="p">[</span><span class="s">"Fare"</span><span class="p">]</span>
+	<span class="n">fare_for_class</span> <span class="o">=</span> <span class="n">pclass_fares</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+	<span class="n">fares_by_class</span><span class="p">[</span><span class="n">this_class</span><span class="p">]</span> <span class="o">=</span> <span class="n">fare_for_class</span>
+<span class="n">fares_by_class</span>
+<span class="c1"># =&gt; [1: 84.154, 2: 20.662, 3: 13.675]
+</span>
+<span class="c1"># 使用 pivot_table 计算
+# 计算每种船票等级平均获救人数
+</span><span class="n">passenger_survival</span> <span class="o">=</span> <span class="n">titanic_survival</span><span class="o">.</span><span class="n">pivot_table</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="s">"Pclass"</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="s">"Survived"</span><span class="p">,</span> <span class="n">aggfunc</span><span class="o">=</span><span class="n">numpy</span><span class="o">.</span><span class="n">mean</span><span class="p">)</span>
+<span class="c1"># =&gt; Pclass
+# =&gt; 1 0.629630
+# =&gt; 2 0.472826
+# =&gt; 3 0.242363
+# =&gt; Name: Survived, dtype: float64
+</span>
+<span class="c1"># 每个等级平均年龄 aggfunc 默认为平均 numpy.mean
+</span><span class="n">passenger_age</span> <span class="o">=</span> <span class="n">titanic_survival</span><span class="o">.</span><span class="n">pivot_table</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="s">"Pclass"</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="s">"Age"</span><span class="p">)</span>
+<span class="c1"># =&gt; Pcalss
+# =&gt; 1 38.233441
+# =&gt; 2 29.877630
+# =&gt; 3 25.140620
+# =&gt; Name: Age, dtype: float64
+</span>
+<span class="c1"># 不同登船地点中 船票总值 与 生还总数 的关系
+</span><span class="n">port_stats</span> <span class="o">=</span> <span class="n">titanic_survival</span><span class="o">.</span><span class="n">pivot_table</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="s">"Embarked"</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="p">[</span><span class="s">"Fare"</span><span class="p">,</span> <span class="s">"Survived"</span><span class="p">],</span> <span class="n">aggfunc</span><span class="o">=</span><span class="n">numpy</span><span class="o">.</span><span class="nb">sum</span><span class="p">)</span>
+
+<span class="c1"># =&gt; Embarded       Fare       Survived
+# =&gt; C 			10072.2962		93
+# =&gt; Q			1022.2543		30
+# =&gt; S 			17439.3988		217
+</span>
+<span class="c1"># 丢掉缺失值
+# 丢掉指定列缺失值样本 (axis 维度, 可指定 axis=1 or axis=columns)(!!! 待完善)
+</span><span class="n">drop_na_columns</span> <span class="o">=</span> <span class="n">titanic_survival</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="c1"># 删除 Age 与 Sex 这两列中包含 Nan 的行
+</span><span class="n">new_titanic_survival</span> <span class="o">=</span> <span class="n">titanic_survival</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="s">"Age"</span><span class="p">,</span> <span class="s">"Sex"</span><span class="p">])</span>
+
+<span class="c1"># 排序
+</span><span class="n">titanic_survival</span><span class="o">.</span><span class="n">sort_values</span>
+</code></pre></div></div>
+
+<h2 id="自定义函数">自定义函数</h2>
+
+<p>apply</p>
+
+<h2 id="series-结构">Series 结构</h2>
+
+<ul>
+  <li>Series: Collection of values</li>
+  <li>DataFrame: Collection of Series objects</li>
+</ul>
+
+<p>Series 为 一行 或 一列</p>
+
+
+    
+  </section>
+
+  <!-- Social media shares -->
+  
+
+<div class="share-buttons">
+    <ul class="share-buttons">
+        <div class="meta">Share</div>
+        
+        <li>
+            <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwanggang316.github.io%2F2018%2F08%2F21%2FPython%25E6%2595%25B0%25E6%258D%25AE%25E5%2588%2586%25E6%259E%2590%25E5%25A4%2584%25E7%2590%2586%25E5%25BA%2593Pandas.html" target="_blank" title=" Facebook">
+			<i class="fa fa-facebook-square fa-2x" aria-hidden="true"></i>
+			<span class="sr-only">Share on Facebook</span>
+		</a>
+        </li>
+         
+        <li>
+            <a href="https://twitter.com/intent/tweet?text=Python%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E5%A4%84%E7%90%86%E5%BA%93Pandas%20https%3A%2F%2Fwanggang316.github.io%2F2018%2F08%2F21%2FPython%25E6%2595%25B0%25E6%258D%25AE%25E5%2588%2586%25E6%259E%2590%25E5%25A4%2584%25E7%2590%2586%25E5%25BA%2593Pandas.html" target="_blank" title="">
+			<i class="fa fa-twitter-square fa-2x" aria-hidden="true"></i>
+			<span class="sr-only">Tweet</span>
+		</a>
+        </li>
+            
+        <li>
+            <a href="http://www.reddit.com/submit?url=https://wanggang316.github.io/2018/08/21/Python%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E5%A4%84%E7%90%86%E5%BA%93Pandas.html&title=Python%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E5%A4%84%E7%90%86%E5%BA%93Pandas%20%7C%20Gump%27s+note" target="_blank" title=" Reddit">
+			<i class="fa fa-reddit-square fa-2x" aria-hidden="true"></i>
+			<span class="sr-only">Share on Reddit</span>
+		</a>
+        </li>
+           
+        <li>
+            <a href="mailto:?subject=Python%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E5%A4%84%E7%90%86%E5%BA%93Pandas%20%7C%20Gump%27s+note&body=:%20https://wanggang316.github.io/2018/08/21/Python%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E5%A4%84%E7%90%86%E5%BA%93Pandas.html" target="_blank" title="">
+			<i class="fa fa-envelope-square fa-2x" aria-hidden="true"></i>
+			<span class="sr-only">Email</span>
+		</a>
+        </li>
+        
+    </ul>
+</div>
+
+
+
+
+   <!-- Tag list -->
+  
+  
+
+
+<footer>
+  <div class="tag-list">
+    
+      <div class="meta">Tags</div>
+    
+
+    
+    <a class="button" href="/tags#Python">
+      <p><i class="fa fa-tag fa-fw"></i> Python</p>
+    </a>
+    
+    <a class="button" href="/tags#%E6%95%B0%E6%8D%AE">
+      <p><i class="fa fa-tag fa-fw"></i> 数据</p>
+    </a>
+    
+  </div>
+</footer>
+
+
+</article>
+
+<!-- Disqus -->
+
+
+<!-- Post navigation -->
+
+  <div id="post-nav">
+    
+
+    
+    <div id="next-post">
+        <a alt="Python科学计算库Numpy" href="/2018/08/20/Python%E7%A7%91%E5%AD%A6%E8%AE%A1%E7%AE%97%E5%BA%93Numpy.html">
+            <p>Next post</p>
+            Python科学计算库Numpy
+        </a>
+    </div>
+    
+</div>
+
+
+
+<!-- To change color of links in the page -->
+<style>
+  
+
+  header#main {
+    background-repeat:no-repeat;
+    
+  }
+</style>
+
+    </div>
+    <footer class="site-footer">
+    <p class="text">
+        Powered by <a href="https://jekyllrb.com/">Jekyll</a> with <a href="https://github.com/sylhare/Type-on-Strap">Type on Strap</a>
+</p>
+            <div class="footer-icons">
+                <ul>
+                <!-- Social icons from Font Awesome, if enabled -->
+                
+<li>
+	<a href="https://wanggang316.github.io/feed.xml" title="Follow RSS feed">
+		<span class="fa-stack fa-lg">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+        </span>
+	</a>
+</li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<li>
+	<a href="https://github.com/wanggang316" title="Follow on GitHub">
+		<span class="fa-stack fa-lg">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+        </span>
+	</a>
+</li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                </ul>
+            </div>
+</footer>
+
+
+
+  </body>
+</html>

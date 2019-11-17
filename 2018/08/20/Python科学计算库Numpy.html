@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<!--
+    Type on Strap jekyll theme v2.0.0
+    Copyright 2016-2019 Sylhare
+    Theme free for personal and commercial use under the MIT license
+    https://github.com/sylhare/Type-on-Strap/blob/master/LICENSE
+-->
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!-- Main JS (navbar.js, katex_init.js and masonry_init.js)-->
+    <script defer=true src="/assets/js/main.min.js"></script>
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="/assets/css/main.css">
+
+    <!--Favicon-->
+    <link rel="shortcut icon" href="/assets/favicon.ico" type="image/x-icon">
+
+    <!-- Canonical -->
+    <link rel="canonical" href="https://wanggang316.github.io/2018/08/20/Python%E7%A7%91%E5%AD%A6%E8%AE%A1%E7%AE%97%E5%BA%93Numpy.html">
+
+    <!-- RSS -->
+    <link rel="alternate" type="application/atom+xml" title="Gump's note" href="https://wanggang316.github.io/feed.xml"/>
+    
+    
+
+    <!-- KaTeX 0.8.3 -->
+    <!-- if you have any issue check https://github.com/KaTeX/KaTeX -->
+    
+    <script src="/assets/js/vendor/katex.min.js"></script>
+    
+
+    <!-- Google Analytics -->
+     <!-- End Google Analytics -->
+
+    <!-- seo tags -->
+    <!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Python科学计算库Numpy | Gump’s note</title>
+<meta name="generator" content="Jekyll v4.0.0" />
+<meta property="og:title" content="Python科学计算库Numpy" />
+<meta name="author" content="Gump Wang" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="关于 Python 版本" />
+<meta property="og:description" content="关于 Python 版本" />
+<link rel="canonical" href="https://wanggang316.github.io/2018/08/20/Python%E7%A7%91%E5%AD%A6%E8%AE%A1%E7%AE%97%E5%BA%93Numpy.html" />
+<meta property="og:url" content="https://wanggang316.github.io/2018/08/20/Python%E7%A7%91%E5%AD%A6%E8%AE%A1%E7%AE%97%E5%BA%93Numpy.html" />
+<meta property="og:site_name" content="Gump’s note" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-08-20T00:00:00+08:00" />
+<script type="application/ld+json">
+{"mainEntityOfPage":{"@type":"WebPage","@id":"https://wanggang316.github.io/2018/08/20/Python%E7%A7%91%E5%AD%A6%E8%AE%A1%E7%AE%97%E5%BA%93Numpy.html"},"author":{"@type":"Person","name":"Gump Wang"},"url":"https://wanggang316.github.io/2018/08/20/Python%E7%A7%91%E5%AD%A6%E8%AE%A1%E7%AE%97%E5%BA%93Numpy.html","headline":"Python科学计算库Numpy","dateModified":"2018-08-20T00:00:00+08:00","datePublished":"2018-08-20T00:00:00+08:00","description":"关于 Python 版本","@type":"BlogPosting","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+    <!-- Manual seo tags -->
+    <!--
+    <title>Python科学计算库Numpy | Gump's note</title>
+    <meta name="description" content="关于 Python 版本">
+    -->
+</head>
+
+  <body>
+    <header class="site-header">
+
+    <!-- Logo and title -->
+	<div class="branding">
+        
+		<a href="/">
+			<img alt="logo img" class="avatar" src="/assets/img/triangle.png" />
+		</a>
+        
+
+		<h1 class="site-title">
+			<a aria-label="Gump's note" href="/">
+        Gump's note
+      </a>
+		</h1>
+	</div>
+
+    <!-- Toggle menu -->
+    <nav class="clear">
+    <a aria-label="pull" id="pull" class="toggle" href="#">
+    <i class="fa fa-bars fa-lg"></i>
+    </a>
+
+    <!-- Menu -->
+    <ul class="hide">
+        
+
+        
+            
+            
+        
+            
+            <li class="separator"> | </li>
+            <li>
+                <a class="clear" aria-label="About" title="About" href="/about/">
+                     About 
+                </a>
+            </li>
+            
+            
+        
+            
+            <li class="separator"> | </li>
+            <li>
+                <a class="clear" aria-label="Gallery" title="Gallery" href="/gallery/">
+                     Gallery 
+                </a>
+            </li>
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            <li class="separator"> | </li>
+            <li>
+                <a class="clear" aria-label="Portfolio" title="Portfolio" href="/portfolio/">
+                     Portfolio 
+                </a>
+            </li>
+            
+            
+        
+            
+            
+        
+            
+            <li class="separator"> | </li>
+            <li>
+                <a class="clear" aria-label="Search" title="Search" href="/search/">
+                     <i class="fa fa-search" aria-hidden="true"></i>
+                    
+                </a>
+            </li>
+            
+            
+        
+            
+            <li class="separator"> | </li>
+            <li>
+                <a class="clear" aria-label="Tags" title="Tags" href="/tags/">
+                     <i class="fa fa-tags" aria-hidden="true"></i>
+                    
+                </a>
+            </li>
+            
+            
+        
+            
+            
+        
+    </ul>
+
+	</nav>
+</header>
+
+    <div class="content">
+      
+
+<meta property="og:url"          content="/2018/08/20/Python%E7%A7%91%E5%AD%A6%E8%AE%A1%E7%AE%97%E5%BA%93Numpy.html" />
+<meta property="og:type"         content="article" />
+<meta property="og:title"        content="Python科学计算库Numpy" />
+<meta property="og:description"  content="关于 Python 版本
+" />
+<meta property="og:image"        content="assets/img/pexels/travel.jpeg" />
+
+
+<article >
+  <header id="main" style="">
+    
+      <h1 id="Python%E7%A7%91%E5%AD%A6%E8%AE%A1%E7%AE%97%E5%BA%93Numpy" class="title">Python科学计算库Numpy</h1>
+      
+
+
+<div class="post-info">
+    <p class="meta">
+      August 20, 2018
+    </p></div>
+
+    
+  </header>
+  <section class="post-content">
+  
+      <h2 id="关于-python-版本">关于 Python 版本</h2>
+
+<p>~&gt; 2.0 与 ~&gt; 3.0 都可以实现想要的功能</p>
+
+<h2 id="anaconda">Anaconda</h2>
+
+<h2 id="numpy-基础">Numpy 基础</h2>
+
+<ul>
+  <li>打印帮助文档</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">print</span> <span class="p">(</span><span class="n">help</span><span class="p">(</span><span class="n">numpy</span><span class="p">))</span>
+</code></pre></div></div>
+
+<ul>
+  <li>读取文件</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">genfromtxt</span><span class="p">(</span><span class="s">"aaa.txt"</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s">","</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">skip_header</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</code></pre></div></div>
+
+<ul>
+  <li>array</li>
+</ul>
+
+<p>将普通 list 转换成 ndarray (几维数据就用几个中括号)</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 一维
+vector = numpy.array([1, 2, 3, 4])
+# 二维矩阵
+matrix = numpy.array([[1, 2, 3, 4], [2, 3, 4, 5], [3, 4, 5, 6]])
+</code></pre></div></div>
+
+<ul>
+  <li>shape</li>
+</ul>
+
+<p>获取 ndarray 结构 (方便调试)</p>
+
+<p>如 (4,) or (2, 3) # 对于矩阵 (行, 列)</p>
+
+<ul>
+  <li>读取数组元素</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 一维
+</span><span class="n">vector</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="c1"># 二维矩阵
+</span><span class="n">matrix</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span> <span class="c1"># 行, 列
+# 一维切片
+</span><span class="n">vector</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span>
+<span class="c1"># 二维矩阵某一列
+</span><span class="n">matrix</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span>
+<span class="c1"># 二维矩阵多列
+</span><span class="n">matrix</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span>
+</code></pre></div></div>
+
+<ul>
+  <li>dtype</li>
+</ul>
+
+<p>numpy 中元素类型必须是一致的，如果类型不一致，会自动转换类型，如 int -&gt; float, int -&gt; string, float -&gt; string</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">vector</span><span class="o">.</span><span class="n">dtype</span>
+</code></pre></div></div>
+
+<ul>
+  <li>判断</li>
+</ul>
+
+<p>与每一个元素进行比较，bool 类型可以当作索引进行取值</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">vector</span> <span class="o">==</span> <span class="mi">2</span>
+<span class="c1"># =&gt; array([False, True, False, False], dtype=bool) 
+</span>
+<span class="c1"># 获取匹配元素
+</span><span class="n">equal_to_two</span> <span class="o">=</span> <span class="p">(</span><span class="n">vector</span> <span class="o">==</span> <span class="mi">2</span><span class="p">)</span>
+<span class="k">print</span> <span class="n">equal_to_two</span>
+<span class="k">print</span><span class="p">(</span><span class="n">vector</span><span class="p">([</span><span class="n">equal_to_two</span><span class="p">]))</span>
+<span class="c1"># =&gt; array([False, True, False, False], dtype=bool)
+# =&gt; [2]
+</span>
+<span class="c1"># 获取二维矩阵中第二列元素等于 3 的行数据
+</span><span class="n">second_column_2</span> <span class="o">=</span> <span class="p">(</span><span class="n">matrix</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">3</span><span class="p">)</span>
+<span class="k">print</span> <span class="n">second_column_2</span>
+<span class="k">print</span><span class="p">(</span><span class="n">matrix</span><span class="p">[</span><span class="n">second_column_2</span><span class="p">,</span> <span class="p">:])</span>
+<span class="c1"># =&gt; [False, True, False, False]
+# =&gt; [[2, 3, 4, 5]]
+</span></code></pre></div></div>
+
+<h2 id="矩阵基础">矩阵基础</h2>
+
+<ul>
+  <li>
+    <table>
+      <tbody>
+        <tr>
+          <td>组合条件 &amp;</td>
+        </tr>
+      </tbody>
+    </table>
+  </li>
+  <li>元素类型转换</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">vector</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="s">"1"</span><span class="p">,</span> <span class="s">"2"</span><span class="p">,</span> <span class="s">"3"</span><span class="p">])</span>
+<span class="k">print</span> <span class="p">(</span><span class="n">vector</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+<span class="n">vector</span> <span class="o">=</span> <span class="n">vector</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+<span class="k">print</span> <span class="p">(</span><span class="n">vector</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+<span class="k">print</span> <span class="p">(</span><span class="n">vector</span><span class="p">)</span>
+
+<span class="c1"># =&gt; &lt;U1
+# =&gt; float64
+# =&gt; [1. 2. 3.]
+</span></code></pre></div></div>
+
+<ul>
+  <li>求极值</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">vector</span><span class="o">.</span><span class="nb">min</span><span class="p">()</span>
+</code></pre></div></div>
+
+<ul>
+  <li>求和</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">matrix</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">15</span><span class="p">],</span> <span class="p">[</span><span class="mi">20</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">30</span><span class="p">],</span> <span class="p">[</span><span class="mi">35</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">45</span><span class="p">]])</span>
+<span class="c1"># 按行求和
+</span><span class="n">matrix</span><span class="o">.</span><span class="nb">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="c1"># =&gt; array([ 30,  75, 120])
+</span>
+<span class="c1"># 按列求和
+</span><span class="n">matrix</span><span class="o">.</span><span class="nb">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="c1"># =&gt; array([60, 75, 90])
+</span>
+</code></pre></div></div>
+
+<h2 id="常用函数">常用函数</h2>
+
+<ul>
+  <li>arange, reshape</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 构建向量
+</span><span class="n">numpy</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span>
+<span class="c1"># =&gt; array([ 0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 13, 14])
+</span>
+<span class="c1"># 构建矩阵
+</span><span class="n">a</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="c1"># =&gt; array([[ 0,  1,  2,  3,  4],
+# =&gt;        [ 5,  6,  7,  8,  9],
+# =&gt;        [10, 11, 12, 13, 14]])
+</span>
+<span class="c1"># 维度
+</span><span class="n">a</span><span class="o">.</span><span class="n">ndim</span>
+<span class="c1"># =&gt; 2
+</span>
+<span class="c1"># 类型名字
+</span><span class="n">a</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">name</span>
+<span class="c1"># =&gt; 'int64'
+</span>
+<span class="c1"># 元素个数
+</span><span class="n">a</span><span class="o">.</span><span class="n">size</span>
+<span class="c1"># =&gt; 15
+</span></code></pre></div></div>
+
+<ul>
+  <li>初始化</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 初始值都为 0
+</span><span class="n">numpy</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span> <span class="c1"># 参数为元组
+# =&gt; array([[0., 0., 0., 0.],
+# =&gt;        [0., 0., 0., 0.],
+# =&gt;        [0., 0., 0., 0.]])
+</span>
+<span class="c1"># 初始值都为 1
+</span><span class="n">numpy</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">numpy</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
+<span class="c1"># =&gt; array([[[1, 1, 1, 1],
+# =&gt;         [1, 1, 1, 1],
+# =&gt;         [1, 1, 1, 1]],
+# =&gt;
+# =&gt;        [[1, 1, 1, 1],
+# =&gt;         [1, 1, 1, 1],
+# =&gt;         [1, 1, 1, 1]]], dtype=int32)
+</span>
+<span class="c1"># 根据起始值、结束值、步长初始化
+</span><span class="n">numpy</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="c1"># =&gt; array([10, 15, 20, 25])
+</span>
+<span class="c1"># 随机初始化
+</span><span class="n">numpy</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span> <span class="c1"># random 默认范围为 -1 ~ 1
+# =&gt; array([[0.03098052, 0.31944657, 0.7471743 ],
+# =&gt;        [0.15375132, 0.18301579, 0.16133002]])
+</span>
+<span class="c1"># 根据范围和数量初始化
+</span><span class="n">numpy</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="n">pi</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
+<span class="c1"># =&gt; array([0.        , 0.10526316, 0.21052632, 0.31578947, 0.42105263,
+# =&gt;        0.52631579, 0.63157895, 0.73684211, 0.84210526, 0.94736842,
+# =&gt;        1.05263158, 1.15789474, 1.26315789, 1.36842105, 1.47368421,
+# =&gt;        1.57894737, 1.68421053, 1.78947368, 1.89473684, 2.        ])
+</span></code></pre></div></div>
+
+<ul>
+  <li>运算</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">a</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">50</span><span class="p">])</span>
+<span class="c1"># =&gt; array([20, 30, 40, 50])
+</span><span class="n">b</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+<span class="c1"># =&gt; array([0, 1, 2, 3])
+</span>
+<span class="n">c</span> <span class="o">=</span> <span class="n">a</span> <span class="o">-</span> <span class="n">b</span>
+<span class="c1"># =&gt; array([20, 29, 38, 47])
+</span>
+<span class="n">c</span> <span class="o">=</span> <span class="n">c</span> <span class="o">-</span> <span class="mi">1</span>
+<span class="c1"># =&gt; array([19, 28, 37, 46])
+</span>
+<span class="c1"># 平方
+</span><span class="n">b</span><span class="o">**</span><span class="mi">2</span> 
+<span class="c1"># =&gt; array([0, 1, 4, 9])
+</span>
+<span class="n">b</span> <span class="o">&lt;</span> <span class="mi">35</span>
+<span class="c1"># =&gt; array([ True,  True,  True,  True])
+</span>
+<span class="c1"># 乘法
+</span><span class="n">A</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+		   		 <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]])</span>
+<span class="n">B</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+		   		 <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]])</span>
+
+<span class="n">A</span> <span class="o">*</span> <span class="n">B</span> <span class="c1"># 对应位置相乘
+# =&gt; array([[2, 0],
+# =&gt;        [0, 4]])
+</span>
+<span class="n">A</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">B</span><span class="p">)</span> <span class="c1"># 矩阵乘法 or numpy.dot(A, B)
+# =&gt; array([[5, 4],
+# =&gt;        [3, 4]])
+</span></code></pre></div></div>
+
+<h2 id="矩阵常用操作">矩阵常用操作</h2>
+
+<ul>
+  <li>变换</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">a</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="mi">10</span><span class="o">*</span><span class="n">numpy</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)))</span>
+<span class="c1"># =&gt; array([[9., 1., 2., 2.],
+# =&gt;        [5., 5., 6., 8.],
+# =&gt;        [8., 3., 5., 2.]])
+</span>
+<span class="c1"># 将矩阵转成向量，与 reshape 相反
+</span><span class="n">a</span><span class="o">.</span><span class="n">revel</span><span class="p">()</span>
+<span class="c1"># =&gt; array([9., 1., 2., 2., 5., 5., 6., 8., 8., 3., 5., 2.])
+</span>
+<span class="c1"># 用 shape 指定行列
+</span><span class="n">a</span><span class="o">.</span><span class="n">shape</span> <span class="o">=</span> <span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="c1"># 对应 reshape(6, 2)
+# =&gt; array([[9., 1.],
+# =&gt;        [2., 2.],
+# =&gt;        [5., 5.],
+# =&gt;        [6., 8.],
+# =&gt;        [8., 3.],
+# =&gt;        [5., 2.]])
+</span>
+<span class="c1"># 注意: 对于二维矩阵如果指定 reshape 行数，列数为 -1 程序会自动计算列数，如 a.reshape(3, -1)
+</span>
+<span class="c1"># 转制
+</span><span class="n">a</span><span class="o">.</span><span class="n">T</span>
+</code></pre></div></div>
+
+<ul>
+  <li>拼接</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">a</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="mi">10</span><span class="o">*</span><span class="n">numpy</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)))</span>
+<span class="c1"># =&gt; array([[3., 8.],
+# =&gt;        [7., 0.]])
+</span><span class="n">b</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="mi">10</span><span class="o">*</span><span class="n">numpy</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)))</span>
+<span class="c1"># =&gt; array([[3., 0.],
+# =&gt;        [0., 5.]])
+</span>
+<span class="c1"># 横向拼接
+</span><span class="n">numpy</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">))</span>
+<span class="c1"># =&gt; array([[3., 8., 3., 0.],
+# =&gt;        [7., 0., 0., 5.]])
+# 纵向拼接
+</span><span class="n">numpy</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">))</span>
+<span class="c1"># =&gt; array([[3., 8.],
+# =&gt;        [7., 0.],
+# =&gt;        [3., 0.],
+# =&gt;        [0., 5.]])
+</span></code></pre></div></div>
+
+<ul>
+  <li>切分</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">a</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="mi">10</span><span class="o">*</span><span class="n">numpy</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">12</span><span class="p">)))</span>
+<span class="c1"># =&gt; array([[4., 7., 5., 8., 3., 5., 7., 6., 1., 9., 7., 3.],
+# =&gt;       [5., 0., 7., 9., 0., 2., 1., 0., 0., 7., 3., 9.]])
+</span>
+<span class="c1"># 横向切分
+</span><span class="n">numpy</span><span class="o">.</span><span class="n">hsplit</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="c1"># =&gt; [array([[4., 7., 5., 8.],
+# =&gt;        [5., 0., 7., 9.]]), array([[3., 5., 7., 6.],
+# =&gt;        [0., 2., 1., 0.]]), array([[1., 9., 7., 3.],
+# =&gt;        [0., 7., 3., 9.]])]
+</span>
+<span class="c1"># 指定位置横向切分
+</span><span class="n">numpy</span><span class="o">.</span><span class="n">hsplit</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span> <span class="c1"># 第 3 个后切一刀，第 4 个后切一刀
+# =&gt; [array([[4., 7., 5.],
+# =&gt;        [5., 0., 7.]]), array([[8.],
+# =&gt;        [9.]]), array([[3., 5., 7., 6., 1., 9., 7., 3.],
+# =&gt;        [0., 2., 1., 0., 0., 7., 3., 9.]])]
+</span>
+<span class="c1"># 纵向切分
+</span><span class="n">numpy</span><span class="o">.</span><span class="n">vsplit</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="c1"># =&gt; [array([[4., 7., 5., 8., 3., 5., 7., 6., 1., 9., 7., 3.],
+# =&gt;        [5., 0., 7., 9., 0., 2., 1., 0., 0., 7., 3., 9.]])]
+</span></code></pre></div></div>
+
+<h2 id="不同复制操作对比">不同复制操作对比</h2>
+
+<p>复制有 3 种方法</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 等号赋值，引用与元素都不复制
+</span><span class="n">a</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">12</span><span class="p">)</span>
+<span class="c1"># =&gt; array([ 0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11])
+</span><span class="n">b</span> <span class="o">=</span> <span class="n">a</span>
+<span class="c1"># =&gt; True
+</span><span class="n">b</span><span class="o">.</span><span class="n">shape</span> <span class="o">=</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+<span class="n">a</span><span class="o">.</span><span class="n">shape</span>
+<span class="c1"># =&gt; (3, 4)
+</span><span class="nb">id</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="c1"># =&gt; 4388924432
+</span><span class="nb">id</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+<span class="c1"># =&gt; 4388924432
+</span>
+<span class="c1"># 浅拷贝，引用复制，元素值不复制
+</span><span class="n">c</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">view</span><span class="p">()</span>
+<span class="n">c</span> <span class="ow">is</span> <span class="n">a</span>
+<span class="c1"># =&gt; False
+</span><span class="n">c</span><span class="o">.</span><span class="n">shape</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
+<span class="n">a</span><span class="o">.</span><span class="n">shape</span>
+<span class="c1"># =&gt; (3, 4) a 的 shape 值不变
+</span><span class="n">c</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1234</span>
+<span class="n">a</span> <span class="c1"># a 的元素值改变
+# =&gt; array([[   0,    1,    2,    3],
+# =&gt;        [1234,    5,    6,    7],
+# =&gt;        [   8,    9,   10,   11]])
+</span>
+<span class="c1"># 深拷贝, 引用与元素值都复制
+</span><span class="n">d</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+</code></pre></div></div>
+
+<ul>
+  <li>获取最大值索引</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">data</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">20</span><span class="p">))</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+<span class="c1"># =&gt; array([[ 0.        ,  0.84147098,  0.90929743,  0.14112001],
+# =&gt;        [-0.7568025 , -0.95892427, -0.2794155 ,  0.6569866 ],
+# =&gt;        [ 0.98935825,  0.41211849, -0.54402111, -0.99999021],
+# =&gt;        [-0.53657292,  0.42016704,  0.99060736,  0.65028784],
+# =&gt;        [-0.28790332, -0.96139749, -0.75098725,  0.14987721]])
+</span>
+<span class="c1"># 每列元素最大值索引(行)
+</span><span class="n">ind</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="c1"># =&gt; array([2, 0, 3, 1])
+</span>
+<span class="c1"># 根据索引获取最大元素
+</span><span class="n">data_max</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">ind</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])]</span>
+<span class="c1"># =&gt; array([0.98935825, 0.84147098, 0.99060736, 0.6569866 ])
+</span></code></pre></div></div>
+
+<ul>
+  <li>扩展</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">a</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="c1"># =&gt; array([ 0, 10, 20, 30])
+</span>
+<span class="c1"># 扩大到 行元素数乘 3，列元素数乘 5
+</span><span class="n">b</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="c1"># =&gt; array([[ 0, 10, 20, 30,  0, 10, 20, 30,  0, 10, 20, 30,  0, 10, 20, 30, 0, 10, 20, 30],
+# =&gt;        [ 0, 10, 20, 30,  0, 10, 20, 30,  0, 10, 20, 30,  0, 10, 20, 30, 0, 10, 20, 30],
+# =&gt;        [ 0, 10, 20, 30,  0, 10, 20, 30,  0, 10, 20, 30,  0, 10, 20, 30, 0, 10, 20, 30]])
+</span></code></pre></div></div>
+
+<ul>
+  <li>排序</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">a</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">]])</span>
+
+<span class="c1"># 行元素按从小到大排序
+</span><span class="n">b</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="c1"># =&gt; array([[3, 4, 5],
+# =&gt;        [1, 1, 2]])
+</span>
+<span class="c1"># 索引从小到大排序
+</span><span class="n">a</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+<span class="n">j</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="c1"># =&gt; array([2, 3, 1, 0])
+</span><span class="n">a</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+<span class="c1"># =&gt; array([1, 2, 3, 4])
+</span></code></pre></div></div>
+
+    
+  </section>
+
+  <!-- Social media shares -->
+  
+
+<div class="share-buttons">
+    <ul class="share-buttons">
+        <div class="meta">Share</div>
+        
+        <li>
+            <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwanggang316.github.io%2F2018%2F08%2F20%2FPython%25E7%25A7%2591%25E5%25AD%25A6%25E8%25AE%25A1%25E7%25AE%2597%25E5%25BA%2593Numpy.html" target="_blank" title=" Facebook">
+			<i class="fa fa-facebook-square fa-2x" aria-hidden="true"></i>
+			<span class="sr-only">Share on Facebook</span>
+		</a>
+        </li>
+         
+        <li>
+            <a href="https://twitter.com/intent/tweet?text=Python%E7%A7%91%E5%AD%A6%E8%AE%A1%E7%AE%97%E5%BA%93Numpy%20https%3A%2F%2Fwanggang316.github.io%2F2018%2F08%2F20%2FPython%25E7%25A7%2591%25E5%25AD%25A6%25E8%25AE%25A1%25E7%25AE%2597%25E5%25BA%2593Numpy.html" target="_blank" title="">
+			<i class="fa fa-twitter-square fa-2x" aria-hidden="true"></i>
+			<span class="sr-only">Tweet</span>
+		</a>
+        </li>
+            
+        <li>
+            <a href="http://www.reddit.com/submit?url=https://wanggang316.github.io/2018/08/20/Python%E7%A7%91%E5%AD%A6%E8%AE%A1%E7%AE%97%E5%BA%93Numpy.html&title=Python%E7%A7%91%E5%AD%A6%E8%AE%A1%E7%AE%97%E5%BA%93Numpy%20%7C%20Gump%27s+note" target="_blank" title=" Reddit">
+			<i class="fa fa-reddit-square fa-2x" aria-hidden="true"></i>
+			<span class="sr-only">Share on Reddit</span>
+		</a>
+        </li>
+           
+        <li>
+            <a href="mailto:?subject=Python%E7%A7%91%E5%AD%A6%E8%AE%A1%E7%AE%97%E5%BA%93Numpy%20%7C%20Gump%27s+note&body=:%20https://wanggang316.github.io/2018/08/20/Python%E7%A7%91%E5%AD%A6%E8%AE%A1%E7%AE%97%E5%BA%93Numpy.html" target="_blank" title="">
+			<i class="fa fa-envelope-square fa-2x" aria-hidden="true"></i>
+			<span class="sr-only">Email</span>
+		</a>
+        </li>
+        
+    </ul>
+</div>
+
+
+
+
+   <!-- Tag list -->
+  
+  
+
+
+<footer>
+  <div class="tag-list">
+    
+      <div class="meta">Tags</div>
+    
+
+    
+    <a class="button" href="/tags#Python">
+      <p><i class="fa fa-tag fa-fw"></i> Python</p>
+    </a>
+    
+    <a class="button" href="/tags#%E6%95%B0%E6%8D%AE">
+      <p><i class="fa fa-tag fa-fw"></i> 数据</p>
+    </a>
+    
+  </div>
+</footer>
+
+
+</article>
+
+<!-- Disqus -->
+
+
+<!-- Post navigation -->
+
+  <div id="post-nav">
+    
+    <div id="previous-post">
+        <a alt="Python数据分析处理库Pandas" href="/2018/08/21/Python%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E5%A4%84%E7%90%86%E5%BA%93Pandas.html">
+            <p>Previous post</p>
+            Python数据分析处理库Pandas
+        </a>
+    </div>
+    
+
+    
+    <div id="next-post">
+        <a alt="UIScrollView编程指南" href="/2014/07/13/UIScrollView%E7%BC%96%E7%A8%8B%E6%8C%87%E5%8D%97.html">
+            <p>Next post</p>
+            UIScrollView编程指南
+        </a>
+    </div>
+    
+</div>
+
+
+
+<!-- To change color of links in the page -->
+<style>
+  
+
+  header#main {
+    background-repeat:no-repeat;
+    
+  }
+</style>
+
+    </div>
+    <footer class="site-footer">
+    <p class="text">
+        Powered by <a href="https://jekyllrb.com/">Jekyll</a> with <a href="https://github.com/sylhare/Type-on-Strap">Type on Strap</a>
+</p>
+            <div class="footer-icons">
+                <ul>
+                <!-- Social icons from Font Awesome, if enabled -->
+                
+<li>
+	<a href="https://wanggang316.github.io/feed.xml" title="Follow RSS feed">
+		<span class="fa-stack fa-lg">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+        </span>
+	</a>
+</li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<li>
+	<a href="https://github.com/wanggang316" title="Follow on GitHub">
+		<span class="fa-stack fa-lg">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+        </span>
+	</a>
+</li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                </ul>
+            </div>
+</footer>
+
+
+
+  </body>
+</html>

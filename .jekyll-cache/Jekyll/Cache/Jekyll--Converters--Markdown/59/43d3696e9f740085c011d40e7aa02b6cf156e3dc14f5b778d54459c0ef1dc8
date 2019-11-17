@@ -1,0 +1,373 @@
+I"��<h2 id="关于scroll-view设计">关于Scroll View设计</h2>
+<p>在iOS程序中当内容需要被显示并且在屏幕上操作不合适的时候，滑动视图被创建。滑动视图有两个主要的目标：</p>
+
+<ul>
+  <li>让用户拖拽他们想要在屏幕上显示的内容</li>
+  <li>让用户使用手势放大或者缩小想在屏幕上显示的内容</li>
+</ul>
+
+<p>下面的图形是<em>UIScrollView</em>的典型应用。子视图是一个包含有一个男孩图片的的<em>UIImageView</em>。当用户在屏幕上拖动他／她的手指，视图窗口上的图片会跟着移动，正如你在示意图中看到的一样，滑动指示器（scroll indicators）随着移动被显示出来。当用户的手指离开，滑动指示器消失。</p>
+
+<h3 id="看一眼">看一眼</h3>
+<p><em>UIScrollView</em>类提供给以下功能：</p>
+<ul>
+  <li>滑动的内容不完全适合屏幕</li>
+  <li>缩放内容，允许你的应用程序支持标准的缩放手势来放大或缩小</li>
+  <li>限制内容在一个屏幕上依次滑动</li>
+</ul>
+
+<p><em>UIScrollView</em>类没有为他所显示的内容特别定义视图；而是简单地滚动它的字视图。这个简单的模型是合适的，因为iOS中的滑动视图并没有用于初始化滚动的额外的控制器。</p>
+
+<h3 id="基础的视图滚动很容易实现">基础的视图滚动很容易实现</h3>
+<p>通过拖动或者轻击手势不要求有基类或者委托。除此可以在*UIScrollView实例中设置内容尺寸，整个界面的的创建和设计也可以在Interface Builder中完成。</p>
+
+<hr />
+
+<p><strong>关联章节：</strong>“<a href="">Creating and Configuring Scroll Views</a>”</p>
+
+<hr />
+
+<h3 id="为了支持缩放手势使用委托">为了支持缩放手势，使用委托</h3>
+<p>在滑动视图中添加基本的放大缩小手势的支持是使用代理。代理类必须遵从<em>UIScrollViewDelegate</em> 协议并实现代理方法，代理方法详细说明了那个滑动视图的子类应该被缩放。您还必须指定一个最小和最大放大倍率因素，或两者兼而有之。</p>
+
+<p>如果你的应用程序需要支持双击缩放，两个手指放大，或者单一手触摸滑动，你需要在你的内容视图中实现来操作这些功能。</p>
+
+<hr />
+
+<p><strong>关联章节：</strong>“<a href="">Basic Zooming Using the Pinch Gestures</a>”</p>
+
+<hr />
+
+<h3 id="为了支持手指开合来缩放或者点击放大实现代码写在内容视图里">为了支持手指开合来缩放或者点击放大，实现代码写在内容视图里</h3>
+<p>如果你的应用程序支持双击放大，两个手指放大，或者单一手触摸滑动，你需要在你的内容视图中来实现。</p>
+
+<hr />
+
+<p><strong>关联章节：</strong>“<a href="">Zooming by Tapping</a>”</p>
+
+<hr />
+
+<h3 id="为为了支持分页模式你只需要三个子类">为为了支持分页模式，你只需要三个子类</h3>
+<p>为了支持分页模式，没有子类和代理是必须的。你只需指定内容尺寸并开启分页模式。你可以只使用三个字视图来实现大多数的分页程序，从而节省内存空间和提高效率。</p>
+
+<hr />
+
+<p><strong>关联章节：</strong>“<a href="">Scrolling Using Paging Mode</a>”</p>
+
+<hr />
+
+<h3 id="要求">要求</h3>
+<p>在阅读这个指南之前，阅读<em>iOS App Programming Guide</em>来iOS应用程序的基本开发流程。也可以考虑阅读* View Controller Programming Guide for iOS*来了解关于view controllers的基本信息，这些是经常与滑动视图结合使用的。</p>
+
+<h3 id="怎样使用这个文档">怎样使用这个文档</h3>
+<p>本指南中剩余的章节会知道你完成月来越复杂的任务，比如处理点击缩放技术，理解代理的作用和它的消息队列，并在你的应用程序中嵌套滚动视图。</p>
+
+<h3 id="另请参考">另请参考</h3>
+<p>你会发现下面的实例工程对你的表视图的实现是有益的：</p>
+
+<ul>
+  <li><em>Scrolling</em>演示基本的滚动</li>
+  <li><em>PageControl</em>演示使用分页模式的滑动视图</li>
+  <li><em>ScrollViewSuite</em>的实例工程。这里有一些用于演示点击滑动技术的高级实例，除此之外，其它一些典型的高级实例，包括切片来允许更大的，更详细的图片以在内存中以高效的方式被显示。</li>
+</ul>
+
+<h2 id="创建并配置滑动视图">创建并配置滑动视图</h2>
+<p>滑动视图像其它任何视图一样被创建，要么通过编程的方式要么通过Interface Builder。只有少数的额外是必须的以实现基本的滑动。</p>
+
+<h3 id="创建滑动视图">创建滑动视图</h3>
+<p>一个滑动视图像其它任何视图一样被创建并插入到一个控制器或视图层次结构。要完成滚动视图的配置，只有两个额外的步骤是必须的。</p>
+
+<ol>
+  <li>你必须通过<em>contentSize</em>属性设置滚动内容的大小。这个指定了可滚动区域的大小。</li>
+  <li>你必须同样添加被显示的一个或多个视图，并且通过滚动视图滚动。这些视图提供显示内容。</li>
+</ol>
+
+<p>你可以随意配置应用程序要求的视觉提示－垂直和水平滚动指示器，弹性拖拽，弹性缩放或者弹性定向滚动。</p>
+
+<h3 id="在interface-builder中创建滚动视图">在Interface Builder中创建滚动视图</h3>
+<p>为了在Interface Builder中创建滚动视图，拖拽Library-&gt;Cocoa Touch-&gt;Data Views单元内的<em>UIScrollView</em>图标到你的“窗口”内。然后把<em>UIViewController</em>的子类的视图输出口连接到滚动视图。如图1-1展示了此连接，假设File’s Owner是<em>UIViewController</em>的子类（常见的设计模式）。</p>
+
+<p>如图1-1 怎样把<em>UIViewController</em>的子类连接到滚动视图</p>
+
+<p>尽管在Interface Builder中<em>UIScrollView</em>的检查器允许你许多滚动视图实例的属性，你仍然要负责在你的应用程序代码中设置<em>contentSize</em>属性，它在定义了滚动区域的大小。如果你已经把滚动视图连接到控制器的实例的视图，在控制器的<em>viewDidLoad</em>方法初始化<em>contentSize</em>属性，如清单1-1所示。</p>
+
+<p>清单1-1 设置滚动视图的尺寸</p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">viewDidLoad</span> <span class="p">{</span>
+    <span class="p">[</span><span class="n">super</span> <span class="nf">viewDidLoad</span><span class="p">];</span>
+    <span class="n">UIScrollView</span> <span class="o">*</span><span class="n">tempScrollView</span> <span class="o">=</span> <span class="p">(</span><span class="n">UIScrollView</span> <span class="o">*</span><span class="p">)</span><span class="n">self</span><span class="p">.</span><span class="n">view</span><span class="p">;</span>
+    <span class="n">tempScrollView</span><span class="p">.</span><span class="n">contentSize</span> <span class="o">=</span> <span class="n">CGSizeMake</span><span class="p">(</span><span class="mi">1280</span><span class="p">,</span> <span class="mi">960</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>在滚动视图的尺寸被设置后，你的应用程序就能够添加提供内容的视图，可以用编程的方式或者Interface Builder的方式添加。</p>
+
+<h3 id="通过编程的方式创建滚动视图">通过编程的方式创建滚动视图</h3>
+<p>完全用代码创建滚动视图也是可以的。这通常是在控制器类中完成的，特别指出，在<em>loadView</em>方法里实现。实现的例子在清单1-2中展示。</p>
+
+<p>清单1-2 在代码中创建滚动视图</p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">loadView</span> <span class="p">{</span>
+	<span class="n">CGRect</span> <span class="n">fullScreenRect</span> <span class="o">=</span> <span class="p">[[</span><span class="n">UIScreen</span> <span class="nf">mainScreen</span><span class="p">]</span> <span class="nf">applicationFrame</span><span class="p">];</span>
+	<span class="n">scrollView</span> <span class="o">=</span> <span class="p">[[</span><span class="n">UIScrollView</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">initWithFrame</span><span class="p">:</span><span class="n">fullScreenRect</span><span class="p">];</span>
+	<span class="n">scrollVIew</span><span class="p">.</span><span class="n">contentSize</span> <span class="o">=</span> <span class="n">CGSizeMake</span><span class="p">(</span><span class="mi">320</span><span class="p">,</span> <span class="mi">758</span><span class="p">);</span>
+
+	<span class="c1">// do any further configuration to the scroll view</span>
+	<span class="c1">// add a view, or views, as a subview of the scroll view.</span>
+     
+	<span class="c1">// release scrollView as self view retains it</span>
+	<span class="n">self</span><span class="p">.</span><span class="n">view</span> <span class="o">=</span> <span class="n">scrollView</span><span class="p">;</span>
+	<span class="p">[</span><span class="n">scrollView</span> <span class="nf">release</span><span class="p">];</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>这段代码创建了一个全屏幕尺寸的滚动视图，设置滚动视图对象为控制器的视图，并且设置<code class="highlighter-rouge">contentSize</code>属性为320*758像素。这个代码创建的滚动视图是垂直滚动。</p>
+
+<p>在这个方法里会有更多的代码被实现，例如，插入字视图或者视图并且配置它们也是必须的。同样的，这段代码假定控制器还没有设置视图。如果已经设置了，在设置滚动视图为控制器的视图之前你有责任释放已经存在的视图。</p>
+
+<h3 id="添加子视图">添加子视图</h3>
+<p>在你已经创建并配置完滚动视图后，你必须添加一个或多个字视图来显示他们的内容。在你的滚动视图中，应该用单一子视图或者多个子视图是一个设计抉择，通常机遇一个需求：滚动视图是否需要放大？</p>
+
+<p>如果你打算在你的滚动视图中支持放大，最常用的技术是使用单一子视图，它能包含整个滚动视图的<code class="highlighter-rouge">contentSize</code>，然后在这个视图傻姑娘添加额外的子视图。这允许你指定单一的’collection’内容视图作为视图来放大，并且它的字视图会根据它的状态放大。</p>
+
+<p>如果放大不是必须的，那么滚动视图是否使用单一子视图或者多个子视图依赖应用程序的决定。</p>
+
+<hr />
+
+<p>笔记：同时返回一个子视图是最常见的情况，你的应用程序可能需要在同一滚动视图的内部允许多个视图，以支持放大的能力。在那种情况下，你可以使用代理方法<code class="highlighter-rouge">viewForZoomingInScrollView:</code>返回适当的子视图，更多的叙述在“<a href="">Basic Zooming Using the Pinch Gestures</a>”</p>
+
+<hr />
+
+<h3 id="配置滚动视图的content-sizecontent-inset还有scroll-indicators">配置滚动视图的Content Size，Content Inset，还有Scroll Indicators</h3>
+<p><code class="highlighter-rouge">contentSize</code>属性是你需要在滚动视图中显示的内容的尺寸。如图1-2中的图片展示了指示了宽度和高度的<code class="highlighter-rouge">contentSize</code>的滚动视图的内容。</p>
+
+<p>图1-2 标记<code class="highlighter-rouge">contentSize</code>尺寸的内容</p>
+
+<p>你可能想需要在滚动视图的边界添加填充（padding），通常在顶部或者底部，以便控制器和工具栏（toolbars）不会干扰内容。想要添加填充，使用<code class="highlighter-rouge">contentInset</code>属性在滚动视图的内容周围指定一个缓冲区。一种思考它的方式是，在不改变子视图或者视图内容尺寸的情况下是滚动视图的内容区域变大。</p>
+
+<p><code class="highlighter-rouge">contentInset</code>属性是一个包含<code class="highlighter-rouge">top</code>，<code class="highlighter-rouge">bottom</code>，<code class="highlighter-rouge">left</code>，<code class="highlighter-rouge">right</code>这几个字段的<code class="highlighter-rouge">UIEdgeInsets</code>结构体。如图1-3展示了指示出<code class="highlighter-rouge">contntInset</code>和<code class="highlighter-rouge">contentSize</code>的内容。</p>
+
+<p>图1-3 指示了<code class="highlighter-rouge">contentSize</code>和<code class="highlighter-rouge">contentInset</code>的内容</p>
+
+<p>如图1-3所示为<code class="highlighter-rouge">conentInset</code>属性指定了<code class="highlighter-rouge">(64, 44, 0, 0)</code>，使滚动视图的顶部有一个额外的64像素的缓冲区域，底部有44像素的缓冲区域。这样设置<code class="highlighter-rouge">contentInset</code>的值允许在屏幕上显示导航栏和工具栏，但仍然允许滚动以显示滚动视图的全部内容。</p>
+
+<p>清单1-3 设置<code class="highlighter-rouge">contentInset</code>属性</p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">loadView</span> <span class="p">{</span>
+	<span class="n">CGRect</span> <span class="n">fullScreenRect</span> <span class="o">=</span> <span class="p">[[</span><span class="n">UIScreen</span> <span class="nf">mainScreen</span><span class="p">]</span> <span class="nf">applicationFrame</span><span class="p">];</span>
+	<span class="n">scrollView</span> <span class="o">=</span> <span class="p">[[</span><span class="n">UIScrollView</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">initWithFrame</span><span class="p">:</span><span class="n">fullScreenRect</span><span class="p">];</span>
+	<span class="n">self</span><span class="p">.</span><span class="n">view</span> <span class="o">=</span> <span class="n">scrollView</span><span class="p">;</span>
+	<span class="n">scrollView</span><span class="p">.</span><span class="n">contentSize</span> <span class="o">=</span> <span class="n">CGSizeMake</span><span class="p">(</span><span class="mi">320</span><span class="p">,</span> <span class="mi">758</span><span class="p">);</span>
+	<span class="n">scrollView</span><span class="p">.</span><span class="n">contentInset</span> <span class="o">=</span> <span class="n">UIEdgeInsetsMake</span><span class="p">(</span><span class="mi">64</span><span class="p">.</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">.</span><span class="mi">0</span><span class="p">,</span> <span class="mi">44</span><span class="p">.</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">.</span><span class="mi">0</span><span class="p">);</span>
+
+	<span class="c1">// do any further configuration to the scroll view</span>
+	<span class="c1">// add a view, or views ,as a subview of the scroll view.</span>
+
+	<span class="c1">// release scrollView as self.view retains it</span>
+	<span class="n">self</span><span class="p">.</span><span class="n">view</span> <span class="o">=</span> <span class="n">scrollView</span><span class="p">;</span>
+	<span class="p">[</span><span class="n">scrollView</span> <span class="nf">release</span><span class="p">];</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>如图1-4 展示了在设置了<code class="highlighter-rouge">contentInset</code>的顶部和顶部的参数值的结果。当滑动到顶部时（如左图所示），屏幕上为navigation bar和status bar留有空间。在右边的图片展示了内容滑动到底部为toolbar留有空间。在两种情况下你都能看见当滑动的时候内容穿过透明的navigation bar和toolbar，当内容完全滑动到顶部或者底部的时候，所有的内容是可见的。</p>
+
+<p>图1-4 设置了<code class="highlighter-rouge">contentInset</code>的顶部和底部值的结果</p>
+
+<p>然而，当滚动视图显示指示器的时候，改变<code class="highlighter-rouge">contentInset</code>的值会有一个意想不到的副作用。当拖拽内容到屏幕的顶部或者底部的时候，滚动指示器超出了被<code class="highlighter-rouge">contentInset</code>定义的区域，在navigation control和toolbar之间。</p>
+
+<p>为了更正这个问题，你必须设置<code class="highlighter-rouge">scrollIndicatorInsets</code>属性。正如<code class="highlighter-rouge">contentInset</code>属性，<code class="highlighter-rouge">scrollIndicatorInsets</code>属性被指定为<code class="highlighter-rouge">UIEdgeInsets</code>结构体。设置垂直方向的插入值来限制垂直方向的指示器，这也导致水平滚动指示器的显示超出了<code class="highlighter-rouge">contentInset</code>的矩形区域。</p>
+
+<p>只修改<code class="highlighter-rouge">contentInset</code>属性而不设置<code class="highlighter-rouge">scrollIndicatorInsets</code>属性使滚动指示器绘制在navigation controller和toolbar之间，这不是想要的结果。然而，设置<code class="highlighter-rouge">scrollIndicatorInsets</code>属性值与<code class="highlighter-rouge">contentInset</code>相匹配来更正这种情况。</p>
+
+<p>正确的<code class="highlighter-rouge">loadView</code>实现在清单1-4，通过添加<code class="highlighter-rouge">scrollIndicatorInsets</code>初始化配置滚动视图所需要要的额外代码。</p>
+
+<p>清单1-4 设置滚动视图的<code class="highlighter-rouge">contentInset</code>和<code class="highlighter-rouge">scrollIndicatorInsets</code>属性</p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">-</span>  <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">loadView</span> 
+	<span class="n">CGRect</span> <span class="n">fullScreenRect</span> <span class="o">=</span> <span class="p">[[</span><span class="n">UIScreen</span> <span class="nf">mainScreen</span><span class="p">]</span> <span class="nf">applicationFrame</span><span class="p">];</span>
+	<span class="n">scrollView</span> <span class="o">=</span> <span class="p">[[</span><span class="n">UIScrollView</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">initWithFrame</span><span class="p">:</span><span class="n">fullScreenRect</span><span class="p">];</span>
+	<span class="n">scrollView</span><span class="p">.</span><span class="n">contentSize</span> <span class="o">=</span> <span class="n">CGSizeMake</span><span class="p">(</span><span class="mi">320</span><span class="p">,</span> <span class="mi">758</span><span class="p">);</span>
+	<span class="n">scrollView</span><span class="p">.</span><span class="n">contentInset</span> <span class="o">=</span> <span class="n">UIEdgeInsetsMake</span><span class="p">(</span><span class="mi">64</span><span class="p">.</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">.</span><span class="mi">0</span><span class="p">,</span> <span class="mi">44</span><span class="p">.</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">.</span><span class="mi">0</span><span class="p">);</span>
+	<span class="n">scrollView</span><span class="p">.</span><span class="n">scrollIndicatorInsets</span> <span class="o">=</span> <span class="n">UIEdgeInsetsMake</span><span class="p">(</span><span class="mi">64</span><span class="p">.</span><span class="mi">0</span><span class="p">);</span>
+
+	<span class="c1">// do any further configuration to the scroll view</span>
+	<span class="c1">// add a view, or views, as a subview of the scroll view.</span>
+
+	<span class="c1">// release scrollVIew as self.view retains it</span>
+	<span class="n">self</span><span class="p">.</span><span class="n">view</span> <span class="o">=</span> <span class="n">scrollView</span><span class="p">;</span>
+	<span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">scrollView</span> <span class="nf">release</span><span class="p">];</span>
+<span class="err">}</span>
+</code></pre></div></div>
+
+<h2 id="移动滚动视图">移动滚动视图</h2>
+
+<p>初始化一个滚动视图的滚动最常用的方法是用户直接触摸屏幕，并利用他或她的手指拖动。然后滚动视图响应这个动作滚动内容。这个手势被称为<em>拖拽手势</em>。</p>
+
+<p>拖动动作中的一个变化是<em>轻弹手势</em>，一个轻弹手势是用户手指与屏幕初次接触后的快速移动，在想要滚动的方向拖动，然后离开屏幕。这个手势不仅仅能引起滑动，它根据用户拖拽的速度给人一种动量，这使得用户的手指完成后任然能继续滑动。滑动在指定的时间内主见减速。轻弹手势允许用户一个单一动作移动很长的距离。在减速的任意时刻，用户能在适当的位置触摸屏幕来停止滚动。所有这些行为都内置在<code class="highlighter-rouge">UIScrollView</code>内，就开发者而言不需要实现它们。</p>
+
+<p>但是有时候为程序以编程的方式滚动内容是有必要的，举例来说，显示一个文档的特定部分。在那种情况下，<code class="highlighter-rouge">UIScrollView</code>提供了必要的方法。</p>
+
+<h3 id="以编程方式滚动">以编程方式滚动</h3>
+<p>滚动滚动视图的内容不总是响应用户拖动或者轻弹屏幕。有些时候，你的应用程序需要滚动到一定的偏移量，使特定的矩形区域暴露，或者滚动到视图的顶部。<code class="highlighter-rouge">UIScrollView</code>提供了方法来执行所有这些操作。</p>
+
+<h3 id="滚刀刀指定的偏移量">滚刀刀指定的偏移量</h3>
+<p>滚动到指定的左上角位置（<code class="highlighter-rouge">contentOffset</code>属性）能通过两种方式实现。<code class="highlighter-rouge">setContentOffset:animated:</code>方法使内容滚动到指定偏移量。如果animated参数是YES，滚动会从当前位置以恒定的速度以动画的方式到指定的位置。如果animated参数是NO，滚动是即时的，没有发生动画。在这两种情况下，委托发送一个<code class="highlighter-rouge">scrollViewDidScroll:</code>消息。如果动画被禁用，或者你直接通过<code class="highlighter-rouge">contentOffset</code>属性设置内容偏移量，代理收到一个<code class="highlighter-rouge">scrollViewDidScroll:</code>消息。如果动画开启，当动画正在进行时，代理会接收一系列<code class="highlighter-rouge">scrollViewDidScroll:</code>消息。当动画完成的时候，代理收到一个<code class="highlighter-rouge">scrollViewDidEndScrollingAnimation:</code>消息。</p>
+
+<h3 id="使一个矩形可见">使一个矩形可见</h3>
+<p>另外，也可以滚动矩形区域使它可见。当一个应用程序需要显示当前可见视图之外的控制区域的时候，这是非常有用的。<code class="highlighter-rouge">scrollRectToVisible:animated:</code>方法滚动指定的矩形区域，使其在滚动视图内可见。如果animated参数是YES，矩形以恒定的速度滚动到视图内。和<code class="highlighter-rouge">setContentOffset:animated:</code>一样，如果动画被禁用，委托发送一个<code class="highlighter-rouge">scrollViewDidScroll:</code>消息。如果动画被启动，在动画正在进行时，委托发送一系列<code class="highlighter-rouge">scrollViewDidScroll:</code>消息。在<code class="highlighter-rouge">scrollRectToVisible:animated:</code>的情况下，滚动视图跟踪和拖动性能也没有。</p>
+
+<p>如果为了<code class="highlighter-rouge">scrollRectToVisible:animated:</code>动画被启用，代理接收一个<code class="highlighter-rouge">scrollViewDidEndScrollingAnimation:</code>消息，提供了滚动视图已经到达指定位置并且动画已经完成的通知。</p>
+
+<h3 id="滚动到顶部">滚动到顶部</h3>
+<p>如果状态栏是可见的，当在状态栏上单击的时候，滚动视图也能滚动到内容的顶部。这种做法在应用程序中是很常见的，提供数据在垂直方向上的表现。例如，照片程序无论在是相册选择表视图还是在查看相关照片在相册中的缩略图都支持滚动到顶部，或者在大多数<code class="highlighter-rouge">UITableView</code>（<code class="highlighter-rouge">UIScrollView</code>的子类）的实现也支持滚动到顶部。</p>
+
+<p>你的应用程序通过滚动视图的代理方法<code class="highlighter-rouge">scrollViewShouldScrollToTop:</code>为YES来开启这个行为。如果在屏幕上有多个滚动视图在同一时间通过返回滚动视图来滚动，这个代理方法允许精细的控制那些会滚动到顶部的滚动视图。</p>
+
+<p>当滚动完成，委托发送一个<code class="highlighter-rouge">scrollViewDIdScrollToTop:</code>消息，详细说明这个滚动视图。</p>
+
+<h3 id="在滚动期间发送的代理消息">在滚动期间发送的代理消息</h3>
+<p>由于滚动时，滚动视图使用<code class="highlighter-rouge">tracking</code>（跟踪），<code class="highlighter-rouge">dragging</code>（拖动），<code class="highlighter-rouge">decelerating</code>（减速）和<code class="highlighter-rouge">zooming</code>（缩放）属性跟踪状态。另外，<code class="highlighter-rouge">contentOffset</code>属性定义了可见内容在滚动视图的左上角边界的点。下面的表描述了每个状态的属性：</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">State property</th>
+      <th style="text-align: left">Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left"><code class="highlighter-rouge">tracking</code></td>
+      <td style="text-align: left">如果用户的手指与设备的屏幕相接处为<code class="highlighter-rouge">YES</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="highlighter-rouge">dragging</code></td>
+      <td style="text-align: left">如果用户的与设备的屏幕相接处并且移动为<code class="highlighter-rouge">YES</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="highlighter-rouge">decelerating</code></td>
+      <td style="text-align: left">如果滚动视图的减速为轻弹手势，或者超出滚动视图框架拖动的反弹的结果为<code class="highlighter-rouge">YES</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="highlighter-rouge">zooming</code></td>
+      <td style="text-align: left">如果滚动视图跟踪一个开合手势来改变<code class="highlighter-rouge">zoomScale</code>属性为<code class="highlighter-rouge">YES</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="highlighter-rouge">contentOffset</code></td>
+      <td style="text-align: left">定义滚动视图左上角的一个<code class="highlighter-rouge">CGPoint</code>值</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>遍历这些属性来判断正在进行的动作是没有必要的，因为滚动视图会给代理发送详细的消息序列。这些方法可以让你的应用程序在必要的时候做出回应。委托方法可以查询这些状态的属性来确定为什么收到消息或者滚动视图目前是什么状态。</p>
+
+<h3 id="简单的开始跟踪滚动操作的开始和完成">简单的开始：跟踪滚动操作的开始和完成</h3>
+<p>如果你的应用程序只关注滚动过程的开始和结束，你只能实现的维多方法只有一小部分。</p>
+
+<p>实现<code class="highlighter-rouge">scrollVIewWiewWillBeginDragging:</code>方法来接受拖动开始的通知。</p>
+
+<p>为了确定什么时候滚动完成，你必须实现两个代理方法：<code class="highlighter-rouge">scrollViewDidEndDragging:willDecelerate:</code>和<code class="highlighter-rouge">scrollViewDidEndDecelerating:</code>。当委托收到decelerate参数为NO的<code class="highlighter-rouge">scrollViewDidEndDragging:willDecelerate:</code>消息，或者委托收到<code class="highlighter-rouge">scrollViewDidEndDecelerating:</code>方法。在这两种情况下，滚动完成。</p>
+
+<h3 id="完整的委托消息序列">完整的委托消息序列</h3>
+<p>当用户接触屏幕，tracking sequence开始。<code class="highlighter-rouge">tracking</code>属性立刻被设置为<code class="highlighter-rouge">YES</code>，只要用户的手指与屏幕相接触它保持值为YES，不管怎样移动手指。</p>
+
+<p>如果用户的手指保持静止并且内容视图响应触摸事件，它应该处理这个触摸，并且该序列是完整的。</p>
+
+<p>然而，如果用户移动手指，这个序列继续。</p>
+
+<p>当用户开始移动他或她的手指开始滚动滚动视图第一次尝试（假设滚动视图的默认值）取消任何正在进行的触摸操控，如果试图这样做。</p>
+
+<hr />
+
+<p>笔记：整个消息队列，跟踪和拖拽属性总会保持NO，放大属性为YES，这是有可能的。在滚动的发生是由于放大操作的时候，无论通过一个手势或者编程滚动。如果代理方法作为放大或者滚动的结果，你的应用程序可能会采取不同的行动。</p>
+
+<hr />
+
+<p>滚动视图<code class="highlighter-rouge">dragging</code>属性被设置成<code class="highlighter-rouge">YES</code>，然后他的委托被发送<code class="highlighter-rouge">scrollVIewWillBeginDragging:</code>消息。</p>
+
+<p>当用户拖动他或者她的手指，<code class="highlighter-rouge">scrollVIewDidScroll:</code>消息被发送到委托。这个消息在滚动的时候不断被发送。你的方法实现能查询滚动视图的<code class="highlighter-rouge">contentOffset</code>属性来确定基于滚动视图左上角的位置。<code class="highlighter-rouge">contentOffset</code>属性总是当前基于左上角的位置；无论滑动是否在进行。</p>
+
+<p>如果用户执行轻弹手势，<code class="highlighter-rouge">tracking</code>属性为<code class="highlighter-rouge">NO</code>，因为为了执行轻弹手势，在最初的手势之后，用户的手指与离开屏幕。此时，代理接收一个<code class="highlighter-rouge">scrollViewDidEndDargging:willDecelerate:</code>消息。随着滚动减速deceleration参数为<code class="highlighter-rouge">YES</code>。减速的速度通过<code class="highlighter-rouge">decelerationRate</code>（减速度）属性控制。在默认的情况下，这个属性为<code class="highlighter-rouge">UIScrollViewDecelerationRateNormal</code>，这个值允许滚动持续相当长一段时间。你可以设置速率为<code class="highlighter-rouge">UIScrollDecelerationRateFast</code>使滚动持续更短的时间，在轻弹手势后滚动的距离也更短。当视图减速时，滚动视图的<code class="highlighter-rouge">decelerating</code>属性为<code class="highlighter-rouge">YES</code>。</p>
+
+<p>如果用户拖动，停止拖动然后手指从屏幕上离开，委托收到<code class="highlighter-rouge">scrollViewDidEndDragging:willDecelerate:</code>消息，然而deceleration参数是<code class="highlighter-rouge">NO</code>。这是因为在scroll view上没有动能。用户的手指离开屏幕<code class="highlighter-rouge">tracking</code>属性是<code class="highlighter-rouge">NO</code>。</p>
+
+<p>如果<code class="highlighter-rouge">scrollViewDidEndDragging:willDecelerate:</code>的decelerate参数是<code class="highlighter-rouge">NO</code>，然后scroll view的委托不会再收到拖拽动作的委托消息。滚动视图的decelerating属性现在也返回一个<code class="highlighter-rouge">NO</code>。</p>
+
+<p>还有另外一种情况能使<code class="highlighter-rouge">scrollVIewDidEndDragging:willDecelation:</code>消息发送给委托，即使用户的手指在静止的时候离开屏幕。如果当用户拖动内容超过滚动区域的边界的时候，滚动视图配置了反弹的视觉效果，<code class="highlighter-rouge">scrollViewDidEndDragging:willDecelerate:</code>消息被发送到委托，decelation参数是<code class="highlighter-rouge">YES</code>。当<code class="highlighter-rouge">bounces</code>属性为<code class="highlighter-rouge">YES</code>（默认状态）的时候反弹开启。<code class="highlighter-rouge">alwaysBounceVertical</code>和<code class="highlighter-rouge">alwaysBounceHorizontal</code>属性当<code class="highlighter-rouge">bounces</code>属性为<code class="highlighter-rouge">NO</code>的时候不产生影响。如果<code class="highlighter-rouge">bounces</code>为<code class="highlighter-rouge">YES</code>的时候，它允许<code class="highlighter-rouge">contentSize</code>属性的值小于滚动视图的bounds。</p>
+
+<p>不管导致滚动视图接收<code class="highlighter-rouge">csrollviewdidenddargging:willDecelerate:</code>消息是什么条件，如果decelerate参数是<code class="highlighter-rouge">YES</code>，滚动视图就会发送<code class="highlighter-rouge">scrollViewWillBeginDecelerating:</code>消息。在减速期间，尽管<code class="highlighter-rouge">tranking</code>和<code class="highlighter-rouge">dragging</code>属性都为<code class="highlighter-rouge">NO</code>，委托继续接收<code class="highlighter-rouge">scrollDidEndScroll:</code>消息。<code class="highlighter-rouge">decelerating</code>属性仍然为<code class="highlighter-rouge">YES</code>。</p>
+
+<p>最后，当减速完成，委托被发送<code class="highlighter-rouge">scrollViewDeiEndDecelerating:</code>消息，<code class="highlighter-rouge">decelerating</code>属性的值为<code class="highlighter-rouge">NO</code>，滚动序列完成。</p>
+
+<h2 id="使用开合手势实现基本变焦">使用开合手势实现基本变焦</h2>
+
+<p><code class="highlighter-rouge">UIScrollView</code>支持很容易的实现开合手势来变焦。你的应用指出变焦因素然后实现一个简单的委托。只需要简单的几步就能使滚动视图支持开合手势的变焦。</p>
+
+<h3 id="支持开合手势">支持开合手势</h3>
+<p>捏合和打开手势是iOS应用的标准手势，用户期望在放大缩小的时候使用它。如图3-1展示了开合手势</p>
+
+<p>图3-1 标准的捏合和打开手势</p>
+
+<p>为了支持变焦，你必须为你的滚动视图设置一个委托。这个委托类必须遵守<code class="highlighter-rouge">UIScrollViewdelegate</code>协议。在很多情况下，这个委托是滚动视图的控制器。这个委托必须实现<code class="highlighter-rouge">viewForZoomingInScrollView:</code>方法然后返回要变焦的视图。下面展示了委托的实现方法，返回一个<code class="highlighter-rouge">UIImageView</code>的<code class="highlighter-rouge">imageView</code>属性。这指出了<code class="highlighter-rouge">imageView</code>属性会被放大来响应变焦手势，以及任何有计划的变焦。</p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">UIView</span> <span class="o">*</span><span class="p">)</span><span class="nf">viewForZoomingInScrollView</span><span class="p">:(</span><span class="n">UIScrollView</span> <span class="o">*</span><span class="p">)</span><span class="nv">scrollView</span> <span class="p">{</span>
+	<span class="k">return</span> <span class="n">self</span><span class="p">.</span><span class="n">imageView</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>为了指定用户的缩放率，你可以设置<code class="highlighter-rouge">minimumZoomScale</code>和<code class="highlighter-rouge">maximumZoomScale</code>属性，他们的初始值都为1.0。这些属性能够在Interface Builder中<code class="highlighter-rouge">UIScrollView</code>的属性检查器或者编程设置。清单3-1展示了在UIViewController的子类中为了支持变焦要求的代码。假设控制器的子类实例为委托类并且实现了<code class="highlighter-rouge">viewForZoomingInScrollView:</code>委托方法。</p>
+
+<p>清单3-1 <code class="highlighter-rouge">UIViewController</code>的子类实现了最低要求的变焦方法</p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">viewDidLoad</span> <span class="p">{</span>
+	<span class="p">[</span><span class="n">super</span> <span class="nf">viewDidLoad</span><span class="p">];</span>
+	<span class="n">self</span><span class="p">.</span><span class="n">scrollView</span><span class="p">.</span><span class="n">minimumZoomScale</span> <span class="o">=</span> <span class="mi">0</span><span class="p">.</span><span class="mi">5</span><span class="p">;</span>
+	<span class="n">self</span><span class="p">.</span><span class="n">scrollView</span><span class="p">.</span><span class="n">maximumZoomScale</span> <span class="o">=</span> <span class="mi">6</span><span class="p">.</span><span class="mi">0</span><span class="p">;</span>
+	<span class="n">self</span><span class="p">.</span><span class="n">scrollView</span><span class="p">.</span><span class="n">contentSize</span> <span class="o">=</span> <span class="n">CGSizeMake</span><span class="p">(</span><span class="mi">1280</span><span class="p">,</span> <span class="mi">960</span><span class="p">);</span>
+	<span class="n">self</span><span class="p">.</span><span class="n">scrollView</span><span class="p">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="n">self</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>指出变焦元素和实现了<code class="highlighter-rouge">viewForZoomingInScrollView:</code>方法的委托对象，是支持开合手势的变焦的最低要求。</p>
+
+<h3 id="一编程的方式缩放">一编程的方式缩放</h3>
+<p>一个滚动视图可能需要变焦来响应触摸手势，像双击或者其他点击手势，或者来响应其他用户的开合手势以外的手势。为了允许这样，滚动视图提供了两个实现方法：<code class="highlighter-rouge">setZoomScale:animated:</code>和<code class="highlighter-rouge">zoomToRect:animated:</code>。</p>
+
+<p><code class="highlighter-rouge">setZoomScale:animated:</code>设置当前缩方率到指定的值。这个值必须在<code class="highlighter-rouge">minimumZoomScale</code>和<code class="highlighter-rouge">maximumZoomScale</code>范围内。如果动画参数是<code class="highlighter-rouge">YES</code>，这个变焦会执行一个恒定的动画直到完成；否则立刻改变比例。也可以直接设置<code class="highlighter-rouge">zoomScale</code>来实现。这种方法等同于设置<code class="highlighter-rouge">setZoomScale:animated:</code>，动画参数为<code class="highlighter-rouge">NO</code>。当用这种方法或者直接通过改变属性的方法变焦，视图会被变焦这样的视图中心保持静止。</p>
+
+<p><code class="highlighter-rouge">zoomToRect:animated:</code>方法使内容变焦到指定的矩形。因为<code class="highlighter-rouge">setZoomScroll:animated:</code>这个方法有一个动画的参数，它决定了是否改变位置和动画变焦。</p>
+
+<p>你的应用程序会经常需要设置变焦比例或者在点击指定位置的时候改变位置。因为<code class="highlighter-rouge">setZoomScale:animated:</code>放大周围可见内容的中心，你会需要一个能够指定位置让变焦元素转变大一个矩形，这个功能用<code class="highlighter-rouge">zoomToRect:animated:</code>是合适的。一个实用程序方法，它有一个滚动视图，变焦比例和在变焦矩形中间的一个点，正如清单3-2所展示的那样。</p>
+
+<p>清单3-2 一个转换变焦比例和变焦中心的使用方法</p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">CGRect</span><span class="p">)</span><span class="nf">zoomRectForScrollView</span><span class="p">:</span> <span class="p">(</span><span class="n">UIScrollView</span> <span class="o">*</span><span class="p">)</span><span class="nv">scrollView</span> <span class="nf">withScale</span><span class="p">:(</span><span class="kt">float</span><span class="p">)</span><span class="nv">scale</span> <span class="nf">withCenter</span><span class="p">:(</span><span class="n">CGPoint</span><span class="p">)</span><span class="nv">center</span> <span class="p">{</span>
+	
+	<span class="n">CGRect</span> <span class="n">zoomRect</span><span class="p">;</span>
+
+	<span class="c1">// The zoom rect is in the content view’s coordinates.</span>
+	<span class="c1">// At a zoom scale of 1.0, it would be the size of </span>
+	<span class="c1">// the imageScrollView’s bounds</span>
+	<span class="c1">// As the zoom scale decreases, so more content is visible,</span>
+	<span class="c1">// the size of the grows.</span>
+	<span class="n">zoomRect</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">height</span> <span class="o">=</span> <span class="n">scroll</span><span class="p">.</span><span class="n">frame</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">height</span> <span class="o">/</span> <span class="n">scale</span><span class="p">;</span>
+	<span class="n">zoomRect</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">width</span> <span class="o">=</span> <span class="n">scrollView</span><span class="p">.</span><span class="n">frame</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">width</span> <span class="o">/</span> <span class="n">scale</span><span class="p">;</span>
+
+	<span class="c1">// choose an origin so as to get the right center.</span>
+	<span class="n">zoomRect</span><span class="p">.</span><span class="n">origin</span><span class="p">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">center</span><span class="p">.</span><span class="n">x</span> <span class="o">-</span> <span class="p">(</span><span class="n">zoomRect</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">width</span> <span class="o">/</span> <span class="mi">2</span><span class="p">.</span><span class="mi">0</span><span class="p">);</span>
+	<span class="n">zoomRect</span><span class="p">.</span><span class="n">origin</span><span class="p">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">center</span><span class="p">.</span><span class="n">y</span> <span class="o">-</span> <span class="p">(</span><span class="n">zoomRect</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">height</span> <span class="o">/</span> <span class="mi">2</span><span class="p">.</span><span class="mi">0</span><span class="p">);</span>
+
+	<span class="k">return</span> <span class="n">zoomRect</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>当在自定义的支持的子类中响应双击手势的时候，这个使用方法是很有用的。通过与滚动视图相关的实例和一个新的比例或者围绕变焦中心的点来使用这个方法是很简单的。当响应一个双击手势时，响应的中心点通常是点击的中心点。这个方法返回的矩形被传到<code class="highlighter-rouge">zoomToRect:animated:</code>方法。</p>
+
+<h3 id="通知委托变焦完成">通知委托变焦完成</h3>
+<p>当用户完成开合手势或者滚动视图有计划的变焦被完成，滚动视图的委托被通知接收一个<code class="highlighter-rouge">scrollViewDidEndZooming:withView:atScale:</code>消息。</p>
+
+<p>这种方法以滚动视图实例，已滚动的滚动视图的子视图，并在该变焦完成参数的比例因子作为参数。一旦接收到这个消息代表你的应用程序就可以采取适当的行动。</p>
+
+<p>未完待续</p>
+
+:ET
