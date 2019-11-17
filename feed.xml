@@ -1,0 +1,579 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.0.0">Jekyll</generator><link href="https://wanggang316.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://wanggang316.github.io/" rel="alternate" type="text/html" /><updated>2019-11-17T16:09:16+08:00</updated><id>https://wanggang316.github.io/feed.xml</id><title type="html">Gump’s note</title><subtitle>A website with blog posts and pages</subtitle><entry><title type="html">UIScrollView编程指南</title><link href="https://wanggang316.github.io/2014/07/13/UIScrollView%E7%BC%96%E7%A8%8B%E6%8C%87%E5%8D%97.html" rel="alternate" type="text/html" title="UIScrollView编程指南" /><published>2014-07-13T00:00:00+08:00</published><updated>2014-07-13T00:00:00+08:00</updated><id>https://wanggang316.github.io/2014/07/13/UIScrollView%E7%BC%96%E7%A8%8B%E6%8C%87%E5%8D%97</id><content type="html" xml:base="https://wanggang316.github.io/2014/07/13/UIScrollView%E7%BC%96%E7%A8%8B%E6%8C%87%E5%8D%97.html">&lt;h2 id=&quot;关于scroll-view设计&quot;&gt;关于Scroll View设计&lt;/h2&gt;
+&lt;p&gt;在iOS程序中当内容需要被显示并且在屏幕上操作不合适的时候，滑动视图被创建。滑动视图有两个主要的目标：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;让用户拖拽他们想要在屏幕上显示的内容&lt;/li&gt;
+  &lt;li&gt;让用户使用手势放大或者缩小想在屏幕上显示的内容&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;下面的图形是&lt;em&gt;UIScrollView&lt;/em&gt;的典型应用。子视图是一个包含有一个男孩图片的的&lt;em&gt;UIImageView&lt;/em&gt;。当用户在屏幕上拖动他／她的手指，视图窗口上的图片会跟着移动，正如你在示意图中看到的一样，滑动指示器（scroll indicators）随着移动被显示出来。当用户的手指离开，滑动指示器消失。&lt;/p&gt;
+
+&lt;h3 id=&quot;看一眼&quot;&gt;看一眼&lt;/h3&gt;
+&lt;p&gt;&lt;em&gt;UIScrollView&lt;/em&gt;类提供给以下功能：&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;滑动的内容不完全适合屏幕&lt;/li&gt;
+  &lt;li&gt;缩放内容，允许你的应用程序支持标准的缩放手势来放大或缩小&lt;/li&gt;
+  &lt;li&gt;限制内容在一个屏幕上依次滑动&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;em&gt;UIScrollView&lt;/em&gt;类没有为他所显示的内容特别定义视图；而是简单地滚动它的字视图。这个简单的模型是合适的，因为iOS中的滑动视图并没有用于初始化滚动的额外的控制器。&lt;/p&gt;
+
+&lt;h3 id=&quot;基础的视图滚动很容易实现&quot;&gt;基础的视图滚动很容易实现&lt;/h3&gt;
+&lt;p&gt;通过拖动或者轻击手势不要求有基类或者委托。除此可以在*UIScrollView实例中设置内容尺寸，整个界面的的创建和设计也可以在Interface Builder中完成。&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;strong&gt;关联章节：&lt;/strong&gt;“&lt;a href=&quot;&quot;&gt;Creating and Configuring Scroll Views&lt;/a&gt;”&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h3 id=&quot;为了支持缩放手势使用委托&quot;&gt;为了支持缩放手势，使用委托&lt;/h3&gt;
+&lt;p&gt;在滑动视图中添加基本的放大缩小手势的支持是使用代理。代理类必须遵从&lt;em&gt;UIScrollViewDelegate&lt;/em&gt; 协议并实现代理方法，代理方法详细说明了那个滑动视图的子类应该被缩放。您还必须指定一个最小和最大放大倍率因素，或两者兼而有之。&lt;/p&gt;
+
+&lt;p&gt;如果你的应用程序需要支持双击缩放，两个手指放大，或者单一手触摸滑动，你需要在你的内容视图中实现来操作这些功能。&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;strong&gt;关联章节：&lt;/strong&gt;“&lt;a href=&quot;&quot;&gt;Basic Zooming Using the Pinch Gestures&lt;/a&gt;”&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h3 id=&quot;为了支持手指开合来缩放或者点击放大实现代码写在内容视图里&quot;&gt;为了支持手指开合来缩放或者点击放大，实现代码写在内容视图里&lt;/h3&gt;
+&lt;p&gt;如果你的应用程序支持双击放大，两个手指放大，或者单一手触摸滑动，你需要在你的内容视图中来实现。&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;strong&gt;关联章节：&lt;/strong&gt;“&lt;a href=&quot;&quot;&gt;Zooming by Tapping&lt;/a&gt;”&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h3 id=&quot;为为了支持分页模式你只需要三个子类&quot;&gt;为为了支持分页模式，你只需要三个子类&lt;/h3&gt;
+&lt;p&gt;为了支持分页模式，没有子类和代理是必须的。你只需指定内容尺寸并开启分页模式。你可以只使用三个字视图来实现大多数的分页程序，从而节省内存空间和提高效率。&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;strong&gt;关联章节：&lt;/strong&gt;“&lt;a href=&quot;&quot;&gt;Scrolling Using Paging Mode&lt;/a&gt;”&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h3 id=&quot;要求&quot;&gt;要求&lt;/h3&gt;
+&lt;p&gt;在阅读这个指南之前，阅读&lt;em&gt;iOS App Programming Guide&lt;/em&gt;来iOS应用程序的基本开发流程。也可以考虑阅读* View Controller Programming Guide for iOS*来了解关于view controllers的基本信息，这些是经常与滑动视图结合使用的。&lt;/p&gt;
+
+&lt;h3 id=&quot;怎样使用这个文档&quot;&gt;怎样使用这个文档&lt;/h3&gt;
+&lt;p&gt;本指南中剩余的章节会知道你完成月来越复杂的任务，比如处理点击缩放技术，理解代理的作用和它的消息队列，并在你的应用程序中嵌套滚动视图。&lt;/p&gt;
+
+&lt;h3 id=&quot;另请参考&quot;&gt;另请参考&lt;/h3&gt;
+&lt;p&gt;你会发现下面的实例工程对你的表视图的实现是有益的：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;em&gt;Scrolling&lt;/em&gt;演示基本的滚动&lt;/li&gt;
+  &lt;li&gt;&lt;em&gt;PageControl&lt;/em&gt;演示使用分页模式的滑动视图&lt;/li&gt;
+  &lt;li&gt;&lt;em&gt;ScrollViewSuite&lt;/em&gt;的实例工程。这里有一些用于演示点击滑动技术的高级实例，除此之外，其它一些典型的高级实例，包括切片来允许更大的，更详细的图片以在内存中以高效的方式被显示。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;创建并配置滑动视图&quot;&gt;创建并配置滑动视图&lt;/h2&gt;
+&lt;p&gt;滑动视图像其它任何视图一样被创建，要么通过编程的方式要么通过Interface Builder。只有少数的额外是必须的以实现基本的滑动。&lt;/p&gt;
+
+&lt;h3 id=&quot;创建滑动视图&quot;&gt;创建滑动视图&lt;/h3&gt;
+&lt;p&gt;一个滑动视图像其它任何视图一样被创建并插入到一个控制器或视图层次结构。要完成滚动视图的配置，只有两个额外的步骤是必须的。&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;你必须通过&lt;em&gt;contentSize&lt;/em&gt;属性设置滚动内容的大小。这个指定了可滚动区域的大小。&lt;/li&gt;
+  &lt;li&gt;你必须同样添加被显示的一个或多个视图，并且通过滚动视图滚动。这些视图提供显示内容。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;你可以随意配置应用程序要求的视觉提示－垂直和水平滚动指示器，弹性拖拽，弹性缩放或者弹性定向滚动。&lt;/p&gt;
+
+&lt;h3 id=&quot;在interface-builder中创建滚动视图&quot;&gt;在Interface Builder中创建滚动视图&lt;/h3&gt;
+&lt;p&gt;为了在Interface Builder中创建滚动视图，拖拽Library-&amp;gt;Cocoa Touch-&amp;gt;Data Views单元内的&lt;em&gt;UIScrollView&lt;/em&gt;图标到你的“窗口”内。然后把&lt;em&gt;UIViewController&lt;/em&gt;的子类的视图输出口连接到滚动视图。如图1-1展示了此连接，假设File’s Owner是&lt;em&gt;UIViewController&lt;/em&gt;的子类（常见的设计模式）。&lt;/p&gt;
+
+&lt;p&gt;如图1-1 怎样把&lt;em&gt;UIViewController&lt;/em&gt;的子类连接到滚动视图&lt;/p&gt;
+
+&lt;p&gt;尽管在Interface Builder中&lt;em&gt;UIScrollView&lt;/em&gt;的检查器允许你许多滚动视图实例的属性，你仍然要负责在你的应用程序代码中设置&lt;em&gt;contentSize&lt;/em&gt;属性，它在定义了滚动区域的大小。如果你已经把滚动视图连接到控制器的实例的视图，在控制器的&lt;em&gt;viewDidLoad&lt;/em&gt;方法初始化&lt;em&gt;contentSize&lt;/em&gt;属性，如清单1-1所示。&lt;/p&gt;
+
+&lt;p&gt;清单1-1 设置滚动视图的尺寸&lt;/p&gt;
+
+&lt;div class=&quot;language-objc highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;viewDidLoad&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;super&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;viewDidLoad&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;UIScrollView&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tempScrollView&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;UIScrollView&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;view&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;tempScrollView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;contentSize&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CGSizeMake&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1280&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;960&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;在滚动视图的尺寸被设置后，你的应用程序就能够添加提供内容的视图，可以用编程的方式或者Interface Builder的方式添加。&lt;/p&gt;
+
+&lt;h3 id=&quot;通过编程的方式创建滚动视图&quot;&gt;通过编程的方式创建滚动视图&lt;/h3&gt;
+&lt;p&gt;完全用代码创建滚动视图也是可以的。这通常是在控制器类中完成的，特别指出，在&lt;em&gt;loadView&lt;/em&gt;方法里实现。实现的例子在清单1-2中展示。&lt;/p&gt;
+
+&lt;p&gt;清单1-2 在代码中创建滚动视图&lt;/p&gt;
+
+&lt;div class=&quot;language-objc highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; &lt;span class=&quot;k&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;loadView&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;CGRect&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fullScreenRect&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;UIScreen&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;mainScreen&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;applicationFrame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;scrollView&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;UIScrollView&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;alloc&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;initWithFrame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fullScreenRect&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;scrollVIew&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;contentSize&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CGSizeMake&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;320&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;758&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+
+	&lt;span class=&quot;c1&quot;&gt;// do any further configuration to the scroll view&lt;/span&gt;
+	&lt;span class=&quot;c1&quot;&gt;// add a view, or views, as a subview of the scroll view.&lt;/span&gt;
+     
+	&lt;span class=&quot;c1&quot;&gt;// release scrollView as self view retains it&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;view&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;scrollView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+	&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;scrollView&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;release&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;这段代码创建了一个全屏幕尺寸的滚动视图，设置滚动视图对象为控制器的视图，并且设置&lt;code class=&quot;highlighter-rouge&quot;&gt;contentSize&lt;/code&gt;属性为320*758像素。这个代码创建的滚动视图是垂直滚动。&lt;/p&gt;
+
+&lt;p&gt;在这个方法里会有更多的代码被实现，例如，插入字视图或者视图并且配置它们也是必须的。同样的，这段代码假定控制器还没有设置视图。如果已经设置了，在设置滚动视图为控制器的视图之前你有责任释放已经存在的视图。&lt;/p&gt;
+
+&lt;h3 id=&quot;添加子视图&quot;&gt;添加子视图&lt;/h3&gt;
+&lt;p&gt;在你已经创建并配置完滚动视图后，你必须添加一个或多个字视图来显示他们的内容。在你的滚动视图中，应该用单一子视图或者多个子视图是一个设计抉择，通常机遇一个需求：滚动视图是否需要放大？&lt;/p&gt;
+
+&lt;p&gt;如果你打算在你的滚动视图中支持放大，最常用的技术是使用单一子视图，它能包含整个滚动视图的&lt;code class=&quot;highlighter-rouge&quot;&gt;contentSize&lt;/code&gt;，然后在这个视图傻姑娘添加额外的子视图。这允许你指定单一的’collection’内容视图作为视图来放大，并且它的字视图会根据它的状态放大。&lt;/p&gt;
+
+&lt;p&gt;如果放大不是必须的，那么滚动视图是否使用单一子视图或者多个子视图依赖应用程序的决定。&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;笔记：同时返回一个子视图是最常见的情况，你的应用程序可能需要在同一滚动视图的内部允许多个视图，以支持放大的能力。在那种情况下，你可以使用代理方法&lt;code class=&quot;highlighter-rouge&quot;&gt;viewForZoomingInScrollView:&lt;/code&gt;返回适当的子视图，更多的叙述在“&lt;a href=&quot;&quot;&gt;Basic Zooming Using the Pinch Gestures&lt;/a&gt;”&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h3 id=&quot;配置滚动视图的content-sizecontent-inset还有scroll-indicators&quot;&gt;配置滚动视图的Content Size，Content Inset，还有Scroll Indicators&lt;/h3&gt;
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;contentSize&lt;/code&gt;属性是你需要在滚动视图中显示的内容的尺寸。如图1-2中的图片展示了指示了宽度和高度的&lt;code class=&quot;highlighter-rouge&quot;&gt;contentSize&lt;/code&gt;的滚动视图的内容。&lt;/p&gt;
+
+&lt;p&gt;图1-2 标记&lt;code class=&quot;highlighter-rouge&quot;&gt;contentSize&lt;/code&gt;尺寸的内容&lt;/p&gt;
+
+&lt;p&gt;你可能想需要在滚动视图的边界添加填充（padding），通常在顶部或者底部，以便控制器和工具栏（toolbars）不会干扰内容。想要添加填充，使用&lt;code class=&quot;highlighter-rouge&quot;&gt;contentInset&lt;/code&gt;属性在滚动视图的内容周围指定一个缓冲区。一种思考它的方式是，在不改变子视图或者视图内容尺寸的情况下是滚动视图的内容区域变大。&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;contentInset&lt;/code&gt;属性是一个包含&lt;code class=&quot;highlighter-rouge&quot;&gt;top&lt;/code&gt;，&lt;code class=&quot;highlighter-rouge&quot;&gt;bottom&lt;/code&gt;，&lt;code class=&quot;highlighter-rouge&quot;&gt;left&lt;/code&gt;，&lt;code class=&quot;highlighter-rouge&quot;&gt;right&lt;/code&gt;这几个字段的&lt;code class=&quot;highlighter-rouge&quot;&gt;UIEdgeInsets&lt;/code&gt;结构体。如图1-3展示了指示出&lt;code class=&quot;highlighter-rouge&quot;&gt;contntInset&lt;/code&gt;和&lt;code class=&quot;highlighter-rouge&quot;&gt;contentSize&lt;/code&gt;的内容。&lt;/p&gt;
+
+&lt;p&gt;图1-3 指示了&lt;code class=&quot;highlighter-rouge&quot;&gt;contentSize&lt;/code&gt;和&lt;code class=&quot;highlighter-rouge&quot;&gt;contentInset&lt;/code&gt;的内容&lt;/p&gt;
+
+&lt;p&gt;如图1-3所示为&lt;code class=&quot;highlighter-rouge&quot;&gt;conentInset&lt;/code&gt;属性指定了&lt;code class=&quot;highlighter-rouge&quot;&gt;(64, 44, 0, 0)&lt;/code&gt;，使滚动视图的顶部有一个额外的64像素的缓冲区域，底部有44像素的缓冲区域。这样设置&lt;code class=&quot;highlighter-rouge&quot;&gt;contentInset&lt;/code&gt;的值允许在屏幕上显示导航栏和工具栏，但仍然允许滚动以显示滚动视图的全部内容。&lt;/p&gt;
+
+&lt;p&gt;清单1-3 设置&lt;code class=&quot;highlighter-rouge&quot;&gt;contentInset&lt;/code&gt;属性&lt;/p&gt;
+
+&lt;div class=&quot;language-objc highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;loadView&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;CGRect&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fullScreenRect&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;UIScreen&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;mainScreen&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;applicationFrame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;scrollView&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;UIScrollView&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;alloc&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;initWithFrame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fullScreenRect&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;view&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;scrollView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;scrollView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;contentSize&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CGSizeMake&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;320&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;758&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;scrollView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;contentInset&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;UIEdgeInsetsMake&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;64&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;44&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+
+	&lt;span class=&quot;c1&quot;&gt;// do any further configuration to the scroll view&lt;/span&gt;
+	&lt;span class=&quot;c1&quot;&gt;// add a view, or views ,as a subview of the scroll view.&lt;/span&gt;
+
+	&lt;span class=&quot;c1&quot;&gt;// release scrollView as self.view retains it&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;view&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;scrollView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+	&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;scrollView&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;release&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;如图1-4 展示了在设置了&lt;code class=&quot;highlighter-rouge&quot;&gt;contentInset&lt;/code&gt;的顶部和顶部的参数值的结果。当滑动到顶部时（如左图所示），屏幕上为navigation bar和status bar留有空间。在右边的图片展示了内容滑动到底部为toolbar留有空间。在两种情况下你都能看见当滑动的时候内容穿过透明的navigation bar和toolbar，当内容完全滑动到顶部或者底部的时候，所有的内容是可见的。&lt;/p&gt;
+
+&lt;p&gt;图1-4 设置了&lt;code class=&quot;highlighter-rouge&quot;&gt;contentInset&lt;/code&gt;的顶部和底部值的结果&lt;/p&gt;
+
+&lt;p&gt;然而，当滚动视图显示指示器的时候，改变&lt;code class=&quot;highlighter-rouge&quot;&gt;contentInset&lt;/code&gt;的值会有一个意想不到的副作用。当拖拽内容到屏幕的顶部或者底部的时候，滚动指示器超出了被&lt;code class=&quot;highlighter-rouge&quot;&gt;contentInset&lt;/code&gt;定义的区域，在navigation control和toolbar之间。&lt;/p&gt;
+
+&lt;p&gt;为了更正这个问题，你必须设置&lt;code class=&quot;highlighter-rouge&quot;&gt;scrollIndicatorInsets&lt;/code&gt;属性。正如&lt;code class=&quot;highlighter-rouge&quot;&gt;contentInset&lt;/code&gt;属性，&lt;code class=&quot;highlighter-rouge&quot;&gt;scrollIndicatorInsets&lt;/code&gt;属性被指定为&lt;code class=&quot;highlighter-rouge&quot;&gt;UIEdgeInsets&lt;/code&gt;结构体。设置垂直方向的插入值来限制垂直方向的指示器，这也导致水平滚动指示器的显示超出了&lt;code class=&quot;highlighter-rouge&quot;&gt;contentInset&lt;/code&gt;的矩形区域。&lt;/p&gt;
+
+&lt;p&gt;只修改&lt;code class=&quot;highlighter-rouge&quot;&gt;contentInset&lt;/code&gt;属性而不设置&lt;code class=&quot;highlighter-rouge&quot;&gt;scrollIndicatorInsets&lt;/code&gt;属性使滚动指示器绘制在navigation controller和toolbar之间，这不是想要的结果。然而，设置&lt;code class=&quot;highlighter-rouge&quot;&gt;scrollIndicatorInsets&lt;/code&gt;属性值与&lt;code class=&quot;highlighter-rouge&quot;&gt;contentInset&lt;/code&gt;相匹配来更正这种情况。&lt;/p&gt;
+
+&lt;p&gt;正确的&lt;code class=&quot;highlighter-rouge&quot;&gt;loadView&lt;/code&gt;实现在清单1-4，通过添加&lt;code class=&quot;highlighter-rouge&quot;&gt;scrollIndicatorInsets&lt;/code&gt;初始化配置滚动视图所需要要的额外代码。&lt;/p&gt;
+
+&lt;p&gt;清单1-4 设置滚动视图的&lt;code class=&quot;highlighter-rouge&quot;&gt;contentInset&lt;/code&gt;和&lt;code class=&quot;highlighter-rouge&quot;&gt;scrollIndicatorInsets&lt;/code&gt;属性&lt;/p&gt;
+
+&lt;div class=&quot;language-objc highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;-&lt;/span&gt;  &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;loadView&lt;/span&gt; 
+	&lt;span class=&quot;n&quot;&gt;CGRect&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fullScreenRect&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;UIScreen&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;mainScreen&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;applicationFrame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;scrollView&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;UIScrollView&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;alloc&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;initWithFrame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fullScreenRect&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;scrollView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;contentSize&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CGSizeMake&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;320&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;758&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;scrollView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;contentInset&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;UIEdgeInsetsMake&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;64&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;44&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;scrollView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;scrollIndicatorInsets&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;UIEdgeInsetsMake&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;64&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+
+	&lt;span class=&quot;c1&quot;&gt;// do any further configuration to the scroll view&lt;/span&gt;
+	&lt;span class=&quot;c1&quot;&gt;// add a view, or views, as a subview of the scroll view.&lt;/span&gt;
+
+	&lt;span class=&quot;c1&quot;&gt;// release scrollVIew as self.view retains it&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;view&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;scrollView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+	&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;scrollView&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;release&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
+&lt;span class=&quot;err&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;移动滚动视图&quot;&gt;移动滚动视图&lt;/h2&gt;
+
+&lt;p&gt;初始化一个滚动视图的滚动最常用的方法是用户直接触摸屏幕，并利用他或她的手指拖动。然后滚动视图响应这个动作滚动内容。这个手势被称为&lt;em&gt;拖拽手势&lt;/em&gt;。&lt;/p&gt;
+
+&lt;p&gt;拖动动作中的一个变化是&lt;em&gt;轻弹手势&lt;/em&gt;，一个轻弹手势是用户手指与屏幕初次接触后的快速移动，在想要滚动的方向拖动，然后离开屏幕。这个手势不仅仅能引起滑动，它根据用户拖拽的速度给人一种动量，这使得用户的手指完成后任然能继续滑动。滑动在指定的时间内主见减速。轻弹手势允许用户一个单一动作移动很长的距离。在减速的任意时刻，用户能在适当的位置触摸屏幕来停止滚动。所有这些行为都内置在&lt;code class=&quot;highlighter-rouge&quot;&gt;UIScrollView&lt;/code&gt;内，就开发者而言不需要实现它们。&lt;/p&gt;
+
+&lt;p&gt;但是有时候为程序以编程的方式滚动内容是有必要的，举例来说，显示一个文档的特定部分。在那种情况下，&lt;code class=&quot;highlighter-rouge&quot;&gt;UIScrollView&lt;/code&gt;提供了必要的方法。&lt;/p&gt;
+
+&lt;h3 id=&quot;以编程方式滚动&quot;&gt;以编程方式滚动&lt;/h3&gt;
+&lt;p&gt;滚动滚动视图的内容不总是响应用户拖动或者轻弹屏幕。有些时候，你的应用程序需要滚动到一定的偏移量，使特定的矩形区域暴露，或者滚动到视图的顶部。&lt;code class=&quot;highlighter-rouge&quot;&gt;UIScrollView&lt;/code&gt;提供了方法来执行所有这些操作。&lt;/p&gt;
+
+&lt;h3 id=&quot;滚刀刀指定的偏移量&quot;&gt;滚刀刀指定的偏移量&lt;/h3&gt;
+&lt;p&gt;滚动到指定的左上角位置（&lt;code class=&quot;highlighter-rouge&quot;&gt;contentOffset&lt;/code&gt;属性）能通过两种方式实现。&lt;code class=&quot;highlighter-rouge&quot;&gt;setContentOffset:animated:&lt;/code&gt;方法使内容滚动到指定偏移量。如果animated参数是YES，滚动会从当前位置以恒定的速度以动画的方式到指定的位置。如果animated参数是NO，滚动是即时的，没有发生动画。在这两种情况下，委托发送一个&lt;code class=&quot;highlighter-rouge&quot;&gt;scrollViewDidScroll:&lt;/code&gt;消息。如果动画被禁用，或者你直接通过&lt;code class=&quot;highlighter-rouge&quot;&gt;contentOffset&lt;/code&gt;属性设置内容偏移量，代理收到一个&lt;code class=&quot;highlighter-rouge&quot;&gt;scrollViewDidScroll:&lt;/code&gt;消息。如果动画开启，当动画正在进行时，代理会接收一系列&lt;code class=&quot;highlighter-rouge&quot;&gt;scrollViewDidScroll:&lt;/code&gt;消息。当动画完成的时候，代理收到一个&lt;code class=&quot;highlighter-rouge&quot;&gt;scrollViewDidEndScrollingAnimation:&lt;/code&gt;消息。&lt;/p&gt;
+
+&lt;h3 id=&quot;使一个矩形可见&quot;&gt;使一个矩形可见&lt;/h3&gt;
+&lt;p&gt;另外，也可以滚动矩形区域使它可见。当一个应用程序需要显示当前可见视图之外的控制区域的时候，这是非常有用的。&lt;code class=&quot;highlighter-rouge&quot;&gt;scrollRectToVisible:animated:&lt;/code&gt;方法滚动指定的矩形区域，使其在滚动视图内可见。如果animated参数是YES，矩形以恒定的速度滚动到视图内。和&lt;code class=&quot;highlighter-rouge&quot;&gt;setContentOffset:animated:&lt;/code&gt;一样，如果动画被禁用，委托发送一个&lt;code class=&quot;highlighter-rouge&quot;&gt;scrollViewDidScroll:&lt;/code&gt;消息。如果动画被启动，在动画正在进行时，委托发送一系列&lt;code class=&quot;highlighter-rouge&quot;&gt;scrollViewDidScroll:&lt;/code&gt;消息。在&lt;code class=&quot;highlighter-rouge&quot;&gt;scrollRectToVisible:animated:&lt;/code&gt;的情况下，滚动视图跟踪和拖动性能也没有。&lt;/p&gt;
+
+&lt;p&gt;如果为了&lt;code class=&quot;highlighter-rouge&quot;&gt;scrollRectToVisible:animated:&lt;/code&gt;动画被启用，代理接收一个&lt;code class=&quot;highlighter-rouge&quot;&gt;scrollViewDidEndScrollingAnimation:&lt;/code&gt;消息，提供了滚动视图已经到达指定位置并且动画已经完成的通知。&lt;/p&gt;
+
+&lt;h3 id=&quot;滚动到顶部&quot;&gt;滚动到顶部&lt;/h3&gt;
+&lt;p&gt;如果状态栏是可见的，当在状态栏上单击的时候，滚动视图也能滚动到内容的顶部。这种做法在应用程序中是很常见的，提供数据在垂直方向上的表现。例如，照片程序无论在是相册选择表视图还是在查看相关照片在相册中的缩略图都支持滚动到顶部，或者在大多数&lt;code class=&quot;highlighter-rouge&quot;&gt;UITableView&lt;/code&gt;（&lt;code class=&quot;highlighter-rouge&quot;&gt;UIScrollView&lt;/code&gt;的子类）的实现也支持滚动到顶部。&lt;/p&gt;
+
+&lt;p&gt;你的应用程序通过滚动视图的代理方法&lt;code class=&quot;highlighter-rouge&quot;&gt;scrollViewShouldScrollToTop:&lt;/code&gt;为YES来开启这个行为。如果在屏幕上有多个滚动视图在同一时间通过返回滚动视图来滚动，这个代理方法允许精细的控制那些会滚动到顶部的滚动视图。&lt;/p&gt;
+
+&lt;p&gt;当滚动完成，委托发送一个&lt;code class=&quot;highlighter-rouge&quot;&gt;scrollViewDIdScrollToTop:&lt;/code&gt;消息，详细说明这个滚动视图。&lt;/p&gt;
+
+&lt;h3 id=&quot;在滚动期间发送的代理消息&quot;&gt;在滚动期间发送的代理消息&lt;/h3&gt;
+&lt;p&gt;由于滚动时，滚动视图使用&lt;code class=&quot;highlighter-rouge&quot;&gt;tracking&lt;/code&gt;（跟踪），&lt;code class=&quot;highlighter-rouge&quot;&gt;dragging&lt;/code&gt;（拖动），&lt;code class=&quot;highlighter-rouge&quot;&gt;decelerating&lt;/code&gt;（减速）和&lt;code class=&quot;highlighter-rouge&quot;&gt;zooming&lt;/code&gt;（缩放）属性跟踪状态。另外，&lt;code class=&quot;highlighter-rouge&quot;&gt;contentOffset&lt;/code&gt;属性定义了可见内容在滚动视图的左上角边界的点。下面的表描述了每个状态的属性：&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;State property&lt;/th&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;Description&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;tracking&lt;/code&gt;&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;如果用户的手指与设备的屏幕相接处为&lt;code class=&quot;highlighter-rouge&quot;&gt;YES&lt;/code&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;dragging&lt;/code&gt;&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;如果用户的与设备的屏幕相接处并且移动为&lt;code class=&quot;highlighter-rouge&quot;&gt;YES&lt;/code&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;decelerating&lt;/code&gt;&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;如果滚动视图的减速为轻弹手势，或者超出滚动视图框架拖动的反弹的结果为&lt;code class=&quot;highlighter-rouge&quot;&gt;YES&lt;/code&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;zooming&lt;/code&gt;&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;如果滚动视图跟踪一个开合手势来改变&lt;code class=&quot;highlighter-rouge&quot;&gt;zoomScale&lt;/code&gt;属性为&lt;code class=&quot;highlighter-rouge&quot;&gt;YES&lt;/code&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;contentOffset&lt;/code&gt;&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;定义滚动视图左上角的一个&lt;code class=&quot;highlighter-rouge&quot;&gt;CGPoint&lt;/code&gt;值&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;遍历这些属性来判断正在进行的动作是没有必要的，因为滚动视图会给代理发送详细的消息序列。这些方法可以让你的应用程序在必要的时候做出回应。委托方法可以查询这些状态的属性来确定为什么收到消息或者滚动视图目前是什么状态。&lt;/p&gt;
+
+&lt;h3 id=&quot;简单的开始跟踪滚动操作的开始和完成&quot;&gt;简单的开始：跟踪滚动操作的开始和完成&lt;/h3&gt;
+&lt;p&gt;如果你的应用程序只关注滚动过程的开始和结束，你只能实现的维多方法只有一小部分。&lt;/p&gt;
+
+&lt;p&gt;实现&lt;code class=&quot;highlighter-rouge&quot;&gt;scrollVIewWiewWillBeginDragging:&lt;/code&gt;方法来接受拖动开始的通知。&lt;/p&gt;
+
+&lt;p&gt;为了确定什么时候滚动完成，你必须实现两个代理方法：&lt;code class=&quot;highlighter-rouge&quot;&gt;scrollViewDidEndDragging:willDecelerate:&lt;/code&gt;和&lt;code class=&quot;highlighter-rouge&quot;&gt;scrollViewDidEndDecelerating:&lt;/code&gt;。当委托收到decelerate参数为NO的&lt;code class=&quot;highlighter-rouge&quot;&gt;scrollViewDidEndDragging:willDecelerate:&lt;/code&gt;消息，或者委托收到&lt;code class=&quot;highlighter-rouge&quot;&gt;scrollViewDidEndDecelerating:&lt;/code&gt;方法。在这两种情况下，滚动完成。&lt;/p&gt;
+
+&lt;h3 id=&quot;完整的委托消息序列&quot;&gt;完整的委托消息序列&lt;/h3&gt;
+&lt;p&gt;当用户接触屏幕，tracking sequence开始。&lt;code class=&quot;highlighter-rouge&quot;&gt;tracking&lt;/code&gt;属性立刻被设置为&lt;code class=&quot;highlighter-rouge&quot;&gt;YES&lt;/code&gt;，只要用户的手指与屏幕相接触它保持值为YES，不管怎样移动手指。&lt;/p&gt;
+
+&lt;p&gt;如果用户的手指保持静止并且内容视图响应触摸事件，它应该处理这个触摸，并且该序列是完整的。&lt;/p&gt;
+
+&lt;p&gt;然而，如果用户移动手指，这个序列继续。&lt;/p&gt;
+
+&lt;p&gt;当用户开始移动他或她的手指开始滚动滚动视图第一次尝试（假设滚动视图的默认值）取消任何正在进行的触摸操控，如果试图这样做。&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;笔记：整个消息队列，跟踪和拖拽属性总会保持NO，放大属性为YES，这是有可能的。在滚动的发生是由于放大操作的时候，无论通过一个手势或者编程滚动。如果代理方法作为放大或者滚动的结果，你的应用程序可能会采取不同的行动。&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;滚动视图&lt;code class=&quot;highlighter-rouge&quot;&gt;dragging&lt;/code&gt;属性被设置成&lt;code class=&quot;highlighter-rouge&quot;&gt;YES&lt;/code&gt;，然后他的委托被发送&lt;code class=&quot;highlighter-rouge&quot;&gt;scrollVIewWillBeginDragging:&lt;/code&gt;消息。&lt;/p&gt;
+
+&lt;p&gt;当用户拖动他或者她的手指，&lt;code class=&quot;highlighter-rouge&quot;&gt;scrollVIewDidScroll:&lt;/code&gt;消息被发送到委托。这个消息在滚动的时候不断被发送。你的方法实现能查询滚动视图的&lt;code class=&quot;highlighter-rouge&quot;&gt;contentOffset&lt;/code&gt;属性来确定基于滚动视图左上角的位置。&lt;code class=&quot;highlighter-rouge&quot;&gt;contentOffset&lt;/code&gt;属性总是当前基于左上角的位置；无论滑动是否在进行。&lt;/p&gt;
+
+&lt;p&gt;如果用户执行轻弹手势，&lt;code class=&quot;highlighter-rouge&quot;&gt;tracking&lt;/code&gt;属性为&lt;code class=&quot;highlighter-rouge&quot;&gt;NO&lt;/code&gt;，因为为了执行轻弹手势，在最初的手势之后，用户的手指与离开屏幕。此时，代理接收一个&lt;code class=&quot;highlighter-rouge&quot;&gt;scrollViewDidEndDargging:willDecelerate:&lt;/code&gt;消息。随着滚动减速deceleration参数为&lt;code class=&quot;highlighter-rouge&quot;&gt;YES&lt;/code&gt;。减速的速度通过&lt;code class=&quot;highlighter-rouge&quot;&gt;decelerationRate&lt;/code&gt;（减速度）属性控制。在默认的情况下，这个属性为&lt;code class=&quot;highlighter-rouge&quot;&gt;UIScrollViewDecelerationRateNormal&lt;/code&gt;，这个值允许滚动持续相当长一段时间。你可以设置速率为&lt;code class=&quot;highlighter-rouge&quot;&gt;UIScrollDecelerationRateFast&lt;/code&gt;使滚动持续更短的时间，在轻弹手势后滚动的距离也更短。当视图减速时，滚动视图的&lt;code class=&quot;highlighter-rouge&quot;&gt;decelerating&lt;/code&gt;属性为&lt;code class=&quot;highlighter-rouge&quot;&gt;YES&lt;/code&gt;。&lt;/p&gt;
+
+&lt;p&gt;如果用户拖动，停止拖动然后手指从屏幕上离开，委托收到&lt;code class=&quot;highlighter-rouge&quot;&gt;scrollViewDidEndDragging:willDecelerate:&lt;/code&gt;消息，然而deceleration参数是&lt;code class=&quot;highlighter-rouge&quot;&gt;NO&lt;/code&gt;。这是因为在scroll view上没有动能。用户的手指离开屏幕&lt;code class=&quot;highlighter-rouge&quot;&gt;tracking&lt;/code&gt;属性是&lt;code class=&quot;highlighter-rouge&quot;&gt;NO&lt;/code&gt;。&lt;/p&gt;
+
+&lt;p&gt;如果&lt;code class=&quot;highlighter-rouge&quot;&gt;scrollViewDidEndDragging:willDecelerate:&lt;/code&gt;的decelerate参数是&lt;code class=&quot;highlighter-rouge&quot;&gt;NO&lt;/code&gt;，然后scroll view的委托不会再收到拖拽动作的委托消息。滚动视图的decelerating属性现在也返回一个&lt;code class=&quot;highlighter-rouge&quot;&gt;NO&lt;/code&gt;。&lt;/p&gt;
+
+&lt;p&gt;还有另外一种情况能使&lt;code class=&quot;highlighter-rouge&quot;&gt;scrollVIewDidEndDragging:willDecelation:&lt;/code&gt;消息发送给委托，即使用户的手指在静止的时候离开屏幕。如果当用户拖动内容超过滚动区域的边界的时候，滚动视图配置了反弹的视觉效果，&lt;code class=&quot;highlighter-rouge&quot;&gt;scrollViewDidEndDragging:willDecelerate:&lt;/code&gt;消息被发送到委托，decelation参数是&lt;code class=&quot;highlighter-rouge&quot;&gt;YES&lt;/code&gt;。当&lt;code class=&quot;highlighter-rouge&quot;&gt;bounces&lt;/code&gt;属性为&lt;code class=&quot;highlighter-rouge&quot;&gt;YES&lt;/code&gt;（默认状态）的时候反弹开启。&lt;code class=&quot;highlighter-rouge&quot;&gt;alwaysBounceVertical&lt;/code&gt;和&lt;code class=&quot;highlighter-rouge&quot;&gt;alwaysBounceHorizontal&lt;/code&gt;属性当&lt;code class=&quot;highlighter-rouge&quot;&gt;bounces&lt;/code&gt;属性为&lt;code class=&quot;highlighter-rouge&quot;&gt;NO&lt;/code&gt;的时候不产生影响。如果&lt;code class=&quot;highlighter-rouge&quot;&gt;bounces&lt;/code&gt;为&lt;code class=&quot;highlighter-rouge&quot;&gt;YES&lt;/code&gt;的时候，它允许&lt;code class=&quot;highlighter-rouge&quot;&gt;contentSize&lt;/code&gt;属性的值小于滚动视图的bounds。&lt;/p&gt;
+
+&lt;p&gt;不管导致滚动视图接收&lt;code class=&quot;highlighter-rouge&quot;&gt;csrollviewdidenddargging:willDecelerate:&lt;/code&gt;消息是什么条件，如果decelerate参数是&lt;code class=&quot;highlighter-rouge&quot;&gt;YES&lt;/code&gt;，滚动视图就会发送&lt;code class=&quot;highlighter-rouge&quot;&gt;scrollViewWillBeginDecelerating:&lt;/code&gt;消息。在减速期间，尽管&lt;code class=&quot;highlighter-rouge&quot;&gt;tranking&lt;/code&gt;和&lt;code class=&quot;highlighter-rouge&quot;&gt;dragging&lt;/code&gt;属性都为&lt;code class=&quot;highlighter-rouge&quot;&gt;NO&lt;/code&gt;，委托继续接收&lt;code class=&quot;highlighter-rouge&quot;&gt;scrollDidEndScroll:&lt;/code&gt;消息。&lt;code class=&quot;highlighter-rouge&quot;&gt;decelerating&lt;/code&gt;属性仍然为&lt;code class=&quot;highlighter-rouge&quot;&gt;YES&lt;/code&gt;。&lt;/p&gt;
+
+&lt;p&gt;最后，当减速完成，委托被发送&lt;code class=&quot;highlighter-rouge&quot;&gt;scrollViewDeiEndDecelerating:&lt;/code&gt;消息，&lt;code class=&quot;highlighter-rouge&quot;&gt;decelerating&lt;/code&gt;属性的值为&lt;code class=&quot;highlighter-rouge&quot;&gt;NO&lt;/code&gt;，滚动序列完成。&lt;/p&gt;
+
+&lt;h2 id=&quot;使用开合手势实现基本变焦&quot;&gt;使用开合手势实现基本变焦&lt;/h2&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;UIScrollView&lt;/code&gt;支持很容易的实现开合手势来变焦。你的应用指出变焦因素然后实现一个简单的委托。只需要简单的几步就能使滚动视图支持开合手势的变焦。&lt;/p&gt;
+
+&lt;h3 id=&quot;支持开合手势&quot;&gt;支持开合手势&lt;/h3&gt;
+&lt;p&gt;捏合和打开手势是iOS应用的标准手势，用户期望在放大缩小的时候使用它。如图3-1展示了开合手势&lt;/p&gt;
+
+&lt;p&gt;图3-1 标准的捏合和打开手势&lt;/p&gt;
+
+&lt;p&gt;为了支持变焦，你必须为你的滚动视图设置一个委托。这个委托类必须遵守&lt;code class=&quot;highlighter-rouge&quot;&gt;UIScrollViewdelegate&lt;/code&gt;协议。在很多情况下，这个委托是滚动视图的控制器。这个委托必须实现&lt;code class=&quot;highlighter-rouge&quot;&gt;viewForZoomingInScrollView:&lt;/code&gt;方法然后返回要变焦的视图。下面展示了委托的实现方法，返回一个&lt;code class=&quot;highlighter-rouge&quot;&gt;UIImageView&lt;/code&gt;的&lt;code class=&quot;highlighter-rouge&quot;&gt;imageView&lt;/code&gt;属性。这指出了&lt;code class=&quot;highlighter-rouge&quot;&gt;imageView&lt;/code&gt;属性会被放大来响应变焦手势，以及任何有计划的变焦。&lt;/p&gt;
+
+&lt;div class=&quot;language-objc highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;UIView&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;viewForZoomingInScrollView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;UIScrollView&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;scrollView&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+	&lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;imageView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;为了指定用户的缩放率，你可以设置&lt;code class=&quot;highlighter-rouge&quot;&gt;minimumZoomScale&lt;/code&gt;和&lt;code class=&quot;highlighter-rouge&quot;&gt;maximumZoomScale&lt;/code&gt;属性，他们的初始值都为1.0。这些属性能够在Interface Builder中&lt;code class=&quot;highlighter-rouge&quot;&gt;UIScrollView&lt;/code&gt;的属性检查器或者编程设置。清单3-1展示了在UIViewController的子类中为了支持变焦要求的代码。假设控制器的子类实例为委托类并且实现了&lt;code class=&quot;highlighter-rouge&quot;&gt;viewForZoomingInScrollView:&lt;/code&gt;委托方法。&lt;/p&gt;
+
+&lt;p&gt;清单3-1 &lt;code class=&quot;highlighter-rouge&quot;&gt;UIViewController&lt;/code&gt;的子类实现了最低要求的变焦方法&lt;/p&gt;
+
+&lt;div class=&quot;language-objc highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;viewDidLoad&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+	&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;super&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;viewDidLoad&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;scrollView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;minimumZoomScale&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;scrollView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;maximumZoomScale&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;6&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;scrollView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;contentSize&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CGSizeMake&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1280&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;960&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;scrollView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;delegate&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;指出变焦元素和实现了&lt;code class=&quot;highlighter-rouge&quot;&gt;viewForZoomingInScrollView:&lt;/code&gt;方法的委托对象，是支持开合手势的变焦的最低要求。&lt;/p&gt;
+
+&lt;h3 id=&quot;一编程的方式缩放&quot;&gt;一编程的方式缩放&lt;/h3&gt;
+&lt;p&gt;一个滚动视图可能需要变焦来响应触摸手势，像双击或者其他点击手势，或者来响应其他用户的开合手势以外的手势。为了允许这样，滚动视图提供了两个实现方法：&lt;code class=&quot;highlighter-rouge&quot;&gt;setZoomScale:animated:&lt;/code&gt;和&lt;code class=&quot;highlighter-rouge&quot;&gt;zoomToRect:animated:&lt;/code&gt;。&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;setZoomScale:animated:&lt;/code&gt;设置当前缩方率到指定的值。这个值必须在&lt;code class=&quot;highlighter-rouge&quot;&gt;minimumZoomScale&lt;/code&gt;和&lt;code class=&quot;highlighter-rouge&quot;&gt;maximumZoomScale&lt;/code&gt;范围内。如果动画参数是&lt;code class=&quot;highlighter-rouge&quot;&gt;YES&lt;/code&gt;，这个变焦会执行一个恒定的动画直到完成；否则立刻改变比例。也可以直接设置&lt;code class=&quot;highlighter-rouge&quot;&gt;zoomScale&lt;/code&gt;来实现。这种方法等同于设置&lt;code class=&quot;highlighter-rouge&quot;&gt;setZoomScale:animated:&lt;/code&gt;，动画参数为&lt;code class=&quot;highlighter-rouge&quot;&gt;NO&lt;/code&gt;。当用这种方法或者直接通过改变属性的方法变焦，视图会被变焦这样的视图中心保持静止。&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;zoomToRect:animated:&lt;/code&gt;方法使内容变焦到指定的矩形。因为&lt;code class=&quot;highlighter-rouge&quot;&gt;setZoomScroll:animated:&lt;/code&gt;这个方法有一个动画的参数，它决定了是否改变位置和动画变焦。&lt;/p&gt;
+
+&lt;p&gt;你的应用程序会经常需要设置变焦比例或者在点击指定位置的时候改变位置。因为&lt;code class=&quot;highlighter-rouge&quot;&gt;setZoomScale:animated:&lt;/code&gt;放大周围可见内容的中心，你会需要一个能够指定位置让变焦元素转变大一个矩形，这个功能用&lt;code class=&quot;highlighter-rouge&quot;&gt;zoomToRect:animated:&lt;/code&gt;是合适的。一个实用程序方法，它有一个滚动视图，变焦比例和在变焦矩形中间的一个点，正如清单3-2所展示的那样。&lt;/p&gt;
+
+&lt;p&gt;清单3-2 一个转换变焦比例和变焦中心的使用方法&lt;/p&gt;
+
+&lt;div class=&quot;language-objc highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CGRect&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;zoomRectForScrollView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;UIScrollView&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;scrollView&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;withScale&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;float&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;scale&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;withCenter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CGPoint&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;center&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+	
+	&lt;span class=&quot;n&quot;&gt;CGRect&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;zoomRect&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+	&lt;span class=&quot;c1&quot;&gt;// The zoom rect is in the content view’s coordinates.&lt;/span&gt;
+	&lt;span class=&quot;c1&quot;&gt;// At a zoom scale of 1.0, it would be the size of &lt;/span&gt;
+	&lt;span class=&quot;c1&quot;&gt;// the imageScrollView’s bounds&lt;/span&gt;
+	&lt;span class=&quot;c1&quot;&gt;// As the zoom scale decreases, so more content is visible,&lt;/span&gt;
+	&lt;span class=&quot;c1&quot;&gt;// the size of the grows.&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;zoomRect&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;size&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;height&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;scroll&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;frame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;size&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;height&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;/&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;scale&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;zoomRect&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;size&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;width&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;scrollView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;frame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;size&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;width&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;/&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;scale&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+	&lt;span class=&quot;c1&quot;&gt;// choose an origin so as to get the right center.&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;zoomRect&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;origin&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;center&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;zoomRect&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;size&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;width&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;/&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;zoomRect&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;origin&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;y&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;center&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;y&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;zoomRect&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;size&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;height&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;/&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+
+	&lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;zoomRect&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;当在自定义的支持的子类中响应双击手势的时候，这个使用方法是很有用的。通过与滚动视图相关的实例和一个新的比例或者围绕变焦中心的点来使用这个方法是很简单的。当响应一个双击手势时，响应的中心点通常是点击的中心点。这个方法返回的矩形被传到&lt;code class=&quot;highlighter-rouge&quot;&gt;zoomToRect:animated:&lt;/code&gt;方法。&lt;/p&gt;
+
+&lt;h3 id=&quot;通知委托变焦完成&quot;&gt;通知委托变焦完成&lt;/h3&gt;
+&lt;p&gt;当用户完成开合手势或者滚动视图有计划的变焦被完成，滚动视图的委托被通知接收一个&lt;code class=&quot;highlighter-rouge&quot;&gt;scrollViewDidEndZooming:withView:atScale:&lt;/code&gt;消息。&lt;/p&gt;
+
+&lt;p&gt;这种方法以滚动视图实例，已滚动的滚动视图的子视图，并在该变焦完成参数的比例因子作为参数。一旦接收到这个消息代表你的应用程序就可以采取适当的行动。&lt;/p&gt;
+
+&lt;p&gt;未完待续&lt;/p&gt;</content><author><name>Gump Wang</name></author><summary type="html">关于Scroll View设计 在iOS程序中当内容需要被显示并且在屏幕上操作不合适的时候，滑动视图被创建。滑动视图有两个主要的目标：</summary></entry><entry><title type="html">CoreAnimation基础</title><link href="https://wanggang316.github.io/2014/07/04/CoreAnimation%E5%9F%BA%E7%A1%80.html" rel="alternate" type="text/html" title="CoreAnimation基础" /><published>2014-07-04T00:00:00+08:00</published><updated>2014-07-04T00:00:00+08:00</updated><id>https://wanggang316.github.io/2014/07/04/CoreAnimation%E5%9F%BA%E7%A1%80</id><content type="html" xml:base="https://wanggang316.github.io/2014/07/04/CoreAnimation%E5%9F%BA%E7%A1%80.html">&lt;p&gt;Core Animation为你的应用程序中动画视图和其它视觉元素提供了一个通用的系统。Core Animation不是你的应用程序中视图的替代品，它是一个与你的视图相结合，以提供更好的性能和支持内容动画的技术。它通过把视图内容超高速缓存到能够直接被图形硬件操作的位图来实现它的行为。在某些情况下，它的超高速缓存行为可能需要你重新思考怎样呈现和管理你应用程序中的内容，但是在很多时候，你在不知道这些东西的情况下使用Core Animation。除了超高速缓存，Core Animation还定义了一种方式来指定任意的视觉内容，使它与你的视图内容相结合，并且使它随着其他的一切动起来。&lt;/p&gt;
+
+&lt;p&gt;你可以使用Core Animation来更改你的应用程序的视图和可视化对象的动画。大多数改变与修改你的视觉对象的属性有关。举例来说，你可能使用Core Animation来改变一个视图的位置，大小或者透明度。当你做了这样的修改，Core Animation使它的值从一个值变到另一个你指定的新值。你通常不使用Core Animation来一分钟替换60次一个视图的内容，就像卡通漫画一样。取而代之，你会使用Core Animation在屏幕上移动视图的内容，渐入或者渐出，为视图指定任意的图形变化，或者改变视图的其它视觉属性。&lt;/p&gt;
+
+&lt;h3 id=&quot;layers提供绘图和动画的基础&quot;&gt;Layers提供绘图和动画的基础&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;Layer对象&lt;/strong&gt;是组织在一个三维空间内的二维表面，是你做使用Core Animation做任何动画的核心。像视图那样，layers管理几何结构，内容和表面视觉属性的信息。与视图不同的是，layers没有定义自己的外表。一个层只管理位图有关的状态信息。位图本身可以是一个视图绘画本身的结果，或者是一个你自己定义的固定图像。由于这个原因，你用在你的应用程序中的主要层被认为是模型对象，因为它们主要用来管理数据。这个概念是很重要的，要记住，因为它会影响动画的行为。&lt;/p&gt;
+
+&lt;h3 id=&quot;基于层的绘画模型&quot;&gt;基于层的绘画模型&lt;/h3&gt;
+&lt;p&gt;大多数层在你的应用程序中没有做实际的绘画。取而代之，layer会捉取你的应用程序提供的内容并将其缓存到内存中的位图，有时也被称为&lt;strong&gt;后备存储&lt;/strong&gt;。当你随后改变层的一个属性的时候，你正在做的是改变与layer对象相关联的状态信息。当一个改变触发一个动画的时候，Core Animation传递层的位图和状态信息到能够使用新信息的位图的图形硬件，如图1-1所示。在硬件上操作位图比在软件上产生更快的动画。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;图1-1&lt;/strong&gt; Core Animation如何绘制内容&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/img/pexels/CoreAnimationBasic1.jpg&quot; alt=&quot;Core Animation&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;因为它操作一个静态的位图，基于层的绘画与其它传统的基于视图的绘画技术有很显著的不同。基于视图的绘画，改变视图本身通常导致调用视图的&lt;strong&gt;drawRect:&lt;/strong&gt;方法使用新的参数来重新绘制内容。但是用这种方法绘图开销是很大的，因为它是在主线程上通过CPU来绘图。Core Animation通过在任何情况下操作缓存在硬件上的位图来达到同样或者相似的效果来避免这样的开销。&lt;/p&gt;
+
+&lt;p&gt;尽管Core Animation尽可能使用缓存的内容，但是你的应用程序仍然必须提供初始化内容并且不时的更新。这里有许多不同的方式为你的应用程序提供包含内容的layer对象，这里是详细内容“&lt;a href=&quot;https://developer.apple.com/library/ios/documentation/Cocoa/Conceptual/CoreAnimation_guide/SettingUpLayerObjects/SettingUpLayerObjects.html#//apple_ref/doc/uid/TP40004514-CH13-SW4&quot;&gt;Providing a Layer’s Contents&lt;/a&gt;”。&lt;/p&gt;
+
+&lt;p&gt;###基于层的动画
+一个层对象的数据和状态信息是与层在屏幕上的视觉表现是分离的。这种分离给Core Animation一个干预自身的方式并且使它从一个状态值变化到一个新的状态值。举例来说，改变一个层的位置属性引发Core Animation来移动层从它当前位置到新的指定位置。类似的改变其它属性的值也能引起引发相应的动画。如图1-2举例说明了你可以在层上执行不同类型的动画。对于出发层动画的属性列表，参见“&lt;a href=&quot;https://developer.apple.com/library/ios/documentation/Cocoa/Conceptual/CoreAnimation_guide/AnimatableProperties/AnimatableProperties.html#//apple_ref/doc/uid/TP40004514-CH11-SW1&quot;&gt;Animatable Properties&lt;/a&gt;”&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;图1-2&lt;/strong&gt; 在层上执行的动画的例子&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/img/pexels/CoreAnimationBasic2.png&quot; alt=&quot;Core Animation&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;在动画的过程中，Core Animation在硬件上一帧一帧为你绘图。你要做的事指定动画的开始点和结束点，剩下的就交给Core Animation去做就行了。你也可以根据需要指定自定义的定时信息和动画参数；当然，如果你不那样做的话，Core Animation提供了适当的默认值。&lt;/p&gt;
+
+&lt;p&gt;对于更多的关于怎样开始动画并且配置动画的参数的信息，参见“&lt;a href=&quot;https://developer.apple.com/library/ios/documentation/Cocoa/Conceptual/CoreAnimation_guide/CreatingBasicAnimations/CreatingBasicAnimations.html#//apple_ref/doc/uid/TP40004514-CH3-SW1&quot;&gt;Animating Layer Content&lt;/a&gt;”&lt;/p&gt;
+
+&lt;h3 id=&quot;层对象定义自己的几何&quot;&gt;层对象定义自己的几何&lt;/h3&gt;
+&lt;p&gt;一个层的其中一项工作是管理它的内容的视觉几何。视觉几何包含关于内容的边界信息，它在屏幕上的位置和层层是否别旋转，缩放或者任何方式的改变。就像视图那样，一个层有它的框架和矩形边界，你可以用它来定位层及其位置。层还有视图没有的其它属性，像锚点，能定义围绕操作发生的点。你可以指定层的几何形状的某些方面的方式也不同于你如何指定视图的信息。&lt;/p&gt;
+
+&lt;h3 id=&quot;层使用两种类型的坐标系统&quot;&gt;层使用两种类型的坐标系统&lt;/h3&gt;
+&lt;p&gt;层利用&lt;strong&gt;点坐标系统&lt;/strong&gt;和&lt;strong&gt;单元坐标&lt;/strong&gt;来指定内容的位置。使用哪个坐标取决于被表达的类型。点坐标被用于当指定的值直接对应到屏幕的坐标或者必须被相对于另一层指定的时候，比如层的&lt;em&gt;positon&lt;/em&gt;属性。单位坐标不能被用于屏幕坐标的值，因为它是相对于其它值而言的。例如，该层的&lt;em&gt;anchorPoint&lt;/em&gt;属性指定相对于所述层本身，它可以改变的边界的点。&lt;/p&gt;
+
+&lt;p&gt;一个层的边界和矩阵框的方向始终与底层平台的默认方向适应。如图1-3展示了在iOS和OS X上矩阵框的默认方向。在iOS中，矩阵框的起点默认在layer的左上角，但是在OS X中默认在左下角。如果你在iOS和OS X之间共享Core Animation的代码，那么你必须把这样的不同点考虑在内。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;图1-3&lt;/strong&gt; iOS和OS X上layer的默认几何形状&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/img/pexels/CoreAnimationBasic3.png&quot; alt=&quot;Core Animation&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;有一点要注意在&lt;a href=&quot;a3&quot;&gt;图1-3&lt;/a&gt;是&lt;em&gt;position&lt;/em&gt;属性是位于一层的中间。这个属性是描述基于层的&lt;em&gt;anchorPoint&lt;/em&gt;属性值的变化之一。锚点代表从确定的坐标原点开始的点，更多详细信息在“&lt;a href=&quot;https://developer.apple.com/library/ios/documentation/Cocoa/Conceptual/CoreAnimation_guide/CoreAnimationBasics/CoreAnimationBasics.html#//apple_ref/doc/uid/TP40004514-CH2-SW17&quot;&gt;Anchor Points Affect Genometric Manipulations&lt;/a&gt;”&lt;/p&gt;
+
+&lt;p&gt;锚点是你指定使用的单元坐标系统的几个属性之一。Core Animation使用单元坐标来表示那些当层的大小变化的时候值可能会变化属性。你可以认为单元坐标时指定所有可能值的百分比。在单元坐标中的每一个坐标空间有一个&lt;em&gt;0.0到－&lt;/em&gt;1.0的范围。例如，x坐标上，左边界坐标在0.0，右边界坐标在1.0。在y坐标上，单元坐标值的变化取决于平台，如图1-4所示。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;图1-4&lt;/strong&gt; iOS和OS X上默认的单元坐标系统&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/img/pexels/CoreAnimationBasic4.png&quot; alt=&quot;Core Animation&quot; /&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;strong&gt;注意：&lt;/strong&gt; 到OS X10.8，在需要的时候，geometryFlipped属性是改变一个层的y轴的默认方向的一种方式。当翻转变换被调用的时候使用整个属性来改变一个层的方向有时候是必要的。例如，如果父视图使用了翻转变换，它的子视图的内容（和它们对应的layer）往往会被翻转。在这种情况下，设置子layer的geometryFlipped为YES是来解决这个问题很简单的方式。在OS X 10.8以后AppKit为你管理这个属性并且你可以修改它。在iOS应用程序中，建议您不要使用geometryFlipped属性。&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;所有坐标的值，无论他们是点还是坐标单元都被为浮点数。使用浮点数允许你指定可能正常的坐标值下降的精确位置。使用浮点数是很方便的，特别是在一个点可能代表多个像素的Retina屏幕上打印或者绘画的时候。浮点数允许你忽略底层设备的分辨率，只在你需要的时候精确地指定值。&lt;/p&gt;
+
+&lt;h3 id=&quot;锚点影响几何操作&quot;&gt;锚点影响几何操作&lt;/h3&gt;
+&lt;p&gt;一个层的几何形状有关的操作发生相对于该层的锚点，你可以使用该层的anchorPoint属性访问。当操作层的&lt;em&gt;position&lt;/em&gt;或&lt;em&gt;transform&lt;/em&gt;属性的时候，锚点的影响是显而易见的。位置属性总是相对于层的锚点来指定的，并且你在层上任何变换的发生都是相对于锚点的。&lt;/p&gt;
+
+&lt;p&gt;图1-5展示了改变锚点从一个值到另一个不同的值怎样影响层的&lt;em&gt;position&lt;/em&gt;属性。尽管层相对于父bounds并没有移动，但是移动锚点从层的中心到层的起点改变了层的&lt;em&gt;position&lt;/em&gt;属性。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;图1-5&lt;/strong&gt; 锚点如何影响层的位置属性&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/img/pexels/CoreAnimationBasic5.png&quot; alt=&quot;Core Animation&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;图1-6展示了改变锚点怎样影响层的旋转。当你讲层的角度旋转，那么旋转围绕着锚点。因为锚点默认被设置在层的中间，这通常能建立你期望的旋转行为。不管怎样，如果你改变锚点，那么旋转的的结果是不同的。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;图1-6&lt;/strong&gt; 锚点如何影响层的变换&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/img/pexels/CoreAnimationBasic6.jpg&quot; alt=&quot;Core Animation&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;层能在三维空间进行操作&quot;&gt;层能在三维空间进行操作&lt;/h3&gt;
+&lt;p&gt;每个层有两个变换矩阵，你可以用它来操作层及其内容。&lt;em&gt;CALayer&lt;/em&gt;的&lt;em&gt;transform&lt;/em&gt;指定了你想要的层的两种变换并且包含他们的子层。当你想要修改层本身通常可以使用此属性。例如，你可能需要使此属性来暂时缩放、旋转层或者改变层的位置。&lt;em&gt;sublayerTransform&lt;/em&gt;属性定义了只针对子层的额外的变换，它最常用于为场景的内容添加透视效果。&lt;/p&gt;
+
+&lt;p&gt;通过操作坐标值变换的工作通过数字矩阵取得代表的原始点变换后的版本新坐标。因为Core Animation的值能在三维空间内被指定，每个坐标点有必需通过一个4*4矩阵相乘的4个值，如图1-7所示。在Core Animation中，在该图中的变换通过CATransform3D来表示。幸运的是，你不需要修直接改这种结构的字段来执行标准转换。Core Animation提供了一全套的用于创建缩放，平移和旋转矩阵并且比较矩阵的功能。除了使用功能操作变换，Core Animation扩展了对key-value的支持，允许你通过一个key paths来修改一个变换。有关可以修改key paths的属性列表，参见“&lt;a href=&quot;https://developer.apple.com/library/ios/documentation/Cocoa/Conceptual/CoreAnimation_guide/Key-ValueCodingExtensions/Key-ValueCodingExtensions.html#//apple_ref/doc/uid/TP40004514-CH12-SW1&quot;&gt;CATransform3D Key Paths&lt;/a&gt;”&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;图1-7&lt;/strong&gt; 用矩阵数学矩阵转换坐标&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/img/pexels/CoreAnimationBasic7.png&quot; alt=&quot;Core Animation&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;图1-8展示了一些较常见的转换的矩阵结构。任何坐标乘以恒等矩阵都能得到完全一样的坐标。关于其它变换，坐标怎样被改完全决定于其基质成分的改变。&lt;/p&gt;
+
+&lt;p&gt;举例来说，改变x轴，你会为平移矩阵的&lt;em&gt;tx&lt;/em&gt;组成部分提供一个非零值，&lt;em&gt;ty&lt;/em&gt;和&lt;em&gt;tz&lt;/em&gt;的值设置为0。关于旋转，你将提供给目标旋转对象适当的正弦值和余弦值。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;图1-8&lt;/strong&gt; 常见的举证变换结构&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/img/pexels/CoreAnimationBasic8.png&quot; alt=&quot;Core Animation&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;关于你用来创建和操作转换的功能的信息，参见&lt;em&gt;Core Animation Function Reference&lt;/em&gt;。&lt;/p&gt;
+
+&lt;h3 id=&quot;层的树形结构反应了动画状态的不同的方面&quot;&gt;层的树形结构反应了动画状态的不同的方面&lt;/h3&gt;
+&lt;p&gt;使用Core Animation的一个应用程序有三套层的对象。每个层对象的拥有使您的应用程序的内容出现在屏幕上不同的角色：&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;model layer tree&lt;/strong&gt;(或直接叫“layer tree”)中的对象是与你的应用程序交流最多的。这些在树形结构里的对象是能存储任何动画目标值的模型对象。无论何时你改变一个层的属性，都会用到这些对象中的一个。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;presentation tree&lt;/strong&gt;中的对象为正在运行的动画包含在动态的值。鉴于这个树形层对象包含动画目标值，这些对象在presentation tree上反映了当前在屏幕上显示的值。你不应该修改这个树的对象。取而代之，你应该使用这些对象来读取当前动画的值，可能用那些值来创建新的动画。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;render tree&lt;/strong&gt;中的对象执行实际的动画，它是Core Animation私有的。&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;每种层对象的集合被分层次地组织就像你应用中的视图。事实上，对于一个应用程序，所有视图的层，其初始化的树形结构和视图的组织结构完全匹配。然而，一个应用程序能添加额外的层对象，就是说，可以使用一个与视图没有关联的层。你可以在某种情况下这样做，以优化不需要一个视图的所有开销内容，来完善你的应用程序。如图1-9所示在一个简单的iOS应用程序中发现层的故障。这个示例的窗口包含一个内容视图，它本身包含一个button视图和两个独立的层对象。每个视图有一个与之对应的层对象，形成有层次的层结构的一部分。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;图1-9&lt;/strong&gt; 与窗口关联的层&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/img/pexels/CoreAnimationBasic9.png&quot; alt=&quot;Core Animation&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;对于layer tree上的对象，有一个在presentation tree和render tree上对应的对象。就像在图1-10所示的那样。像之前提到过的，应用程序主要工作在layer tree，但是有时可能会访问presentation tree中的对象。特别说明的是，访问layer tree中的对象的&lt;em&gt;presentationLayer&lt;/em&gt;属性返回的雨在presentation tree中的对象一致。你可能想要访问那个对象来读取当前在动画中间一个属性的值。&lt;/p&gt;
+
+&lt;p&gt;图1-10 对于窗口的层结构&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/img/pexels/CoreAnimationBasic10.png&quot; alt=&quot;Core Animation&quot; /&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;strong&gt;重要提醒：&lt;/strong&gt; 在动画运行的时候你应该存取presentation tree中的对象。当动画在进程中的时候，presentation tree包含在屏幕上呈现的瞬间的值。这种行为与能够反映你在你的代码中设置的最后得值和动画的最后的状态的layer tree有区别。&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h3 id=&quot;层和视图的关系&quot;&gt;层和视图的关系&lt;/h3&gt;
+&lt;p&gt;层不是你程序中视图的替代品－就是说，你不能创建一个仅仅基于层的可见的视图。层提供视图的基础。需要特别说明的是，层使绘画变的更容易和更有效率，当你这样做的时候，它能使你的视图的内容动起来并且能维持很高的绘画速度。然而，有很多层做不到的事。层不能处理事件，绘制内容，参与相应链，或者做其他事情。由于这个原因，每一个应用程序必须有一个或多个视图来处理这些类型的交互作用。&lt;/p&gt;
+
+&lt;p&gt;在iOS里，每一个视图都依赖一个层对象，但是在OS X里，你必须决定哪个视图应该有层。在OS X10.8以后，在你的所有视图上添加层可能是有意义的。然而，你不是必须要这样做，你可以在你开销不够或者不允许的情况下禁用层。层稍微增加了你内存的开销，但是好处比坏处多，所以在你禁用你的层之前它始终是测试你的应用程序的表现最好的选择。&lt;/p&gt;
+
+&lt;p&gt;当你启用了一个视图的层支持，你创建了一个&lt;strong&gt;layer-backed view（层支持的视图）&lt;/strong&gt;。在一个层支持的视图中，系统为创建的层对象和保持层与视图的同步是负责。所有iOS视图和大多数OS X视图都是层支持的。然而，你也可以创建&lt;strong&gt;layer-hosting view（层托管视图）&lt;/strong&gt;，它是一个你可以自己提供层对象的视图。对于一个层托管视图，AppKit带来了不干涉的方式来管理层，并且在视图改变的时候不修改它。&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;strong&gt;注意：&lt;/strong&gt;对于层支持视图，无论何时，操作视图是被推荐的，而不是他的层。在iOS中，视图只是层对象的很薄的包装，所以你对层的任何操作通常工作得很好。但是iOS和OS X有许多情况下，操作层而不是视图可能并不是期望的结果。只要有可能，这个文档指出了容易犯的错误并且视图提供帮助你围绕它们工作的方式。&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;除层与视图的关联外，你也可以创建没有视图关联的层对象。你可以插入独立的层对象代替你的应用程序中任何层对象，包括哪些与视图有关联的。您通常使用独立的层对象作为一个具体的优化路径的一部分。例如，如果你想要在多个地方使用同样的图片，你可以加载一次图片，然后与多个独立的层对象联系在一起并且把那些对象加入到layer tree。然后每一个层引用这个图片资源而不是在内存中创建它自己的拷贝。&lt;/p&gt;
+
+&lt;p&gt;关于怎样在你的应用程序中启用层支持的有关信息，参见“&lt;a href=&quot;https://developer.apple.com/library/ios/documentation/Cocoa/Conceptual/CoreAnimation_guide/SettingUpLayerObjects/SettingUpLayerObjects.html#//apple_ref/doc/uid/TP40004514-CH13-SW5&quot;&gt;Enabling Core Animation Support in Your App&lt;/a&gt;”。怎样创建层的等级结构的有关信息，和你使用的时候的一些技巧，参见“&lt;a href=&quot;https://developer.apple.com/library/ios/documentation/Cocoa/Conceptual/CoreAnimation_guide/BuildingaLayerHierarchy/BuildingaLayerHierarchy.html#//apple_ref/doc/uid/TP40004514-CH6-SW2&quot;&gt;Building a Layer Hierarchy&lt;/a&gt;”&lt;/p&gt;</content><author><name>Gump Wang</name></author><summary type="html">Core Animation为你的应用程序中动画视图和其它视觉元素提供了一个通用的系统。Core Animation不是你的应用程序中视图的替代品，它是一个与你的视图相结合，以提供更好的性能和支持内容动画的技术。它通过把视图内容超高速缓存到能够直接被图形硬件操作的位图来实现它的行为。在某些情况下，它的超高速缓存行为可能需要你重新思考怎样呈现和管理你应用程序中的内容，但是在很多时候，你在不知道这些东西的情况下使用Core Animation。除了超高速缓存，Core Animation还定义了一种方式来指定任意的视觉内容，使它与你的视图内容相结合，并且使它随着其他的一切动起来。</summary></entry><entry><title type="html">CoreAnimation介绍</title><link href="https://wanggang316.github.io/2014/07/03/CoreAnimation%E4%BB%8B%E7%BB%8D.html" rel="alternate" type="text/html" title="CoreAnimation介绍" /><published>2014-07-03T00:00:00+08:00</published><updated>2014-07-03T00:00:00+08:00</updated><id>https://wanggang316.github.io/2014/07/03/CoreAnimation%E4%BB%8B%E7%BB%8D</id><content type="html" xml:base="https://wanggang316.github.io/2014/07/03/CoreAnimation%E4%BB%8B%E7%BB%8D.html">&lt;p&gt;最近在研究iOS动画，可是却找不到好的资料来学习，索性找来Core Animation的官方文档，一边翻译一边学习，如有不准确的地方，请参见&lt;a href=&quot;https://developer.apple.com/library/ios/documentation/Cocoa/Conceptual/CoreAnimation_guide/Introduction/Introduction.html&quot; title=&quot;Core Animation Programming Guide&quot;&gt;Core Animation Programming Guide&lt;/a&gt;。&lt;/p&gt;
+
+&lt;p&gt;###关于Core Animation
+Core Animation是IOS和OS X平台上用来制作你的应用中的动画和其他视觉元素的图形渲染和动画库。Core Animation能帮你绘制每一帧动画。你要做的只是配置一些参数（比如开始点和结束点）并且告诉Core Animation开始。其余的工作就交给Core Animation，它会把实际的绘制工作交给主板上的显卡来加速渲染。这种自动的图形加速的结果是帧率较高和流畅的动画并且并不会给你的CPU带来负担或者减慢应用的速度。&lt;/p&gt;
+
+&lt;p&gt;如果您正在编写iOS应用程序，那么你正在使用Core Animation不管你知道与否。同样，如果你正在编写OS X应用程序，你可以毫不费力地使用Core Animation。Core Animation在AppKit和UIKit的下层并且紧密的与Cocoa和Cocoa Touch中的视图相结合。当然，Core Animation也能通过你的视图来暴露接口，让你能更细致的控制你的动画。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/img/pexels/CoreAnimation.jpg&quot; alt=&quot;Core Animation&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;你可能从来都不需要直接使用Core Animation，但是当你操作时你就会发现Core Animation在你的应用中扮演的是很基础的角色。&lt;/p&gt;
+
+&lt;h3 id=&quot;core-animation管理你应用的内容&quot;&gt;Core Animation管理你应用的内容&lt;/h3&gt;
+
+&lt;p&gt;Core Animation本身并不是一个绘画系统。它是在硬件上合成和操作你的应用的基础。这一基础的核心是能管理和操作你的内容的__layer对象__。一个layer能把你的内容转换成很容易被硬件操作的位图。在大多数应用中，layers被用于操作视图的一种方式，当然，你也可以根据你的需要单独创建layers。&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;关联章节：“&lt;a href=&quot;https://developer.apple.com/library/ios/documentation/Cocoa/Conceptual/CoreAnimation_guide/CoreAnimationBasics/CoreAnimationBasics.html#//apple_ref/doc/uid/TP40004514-CH2-SW3&quot;&gt;Core Animation Basic&lt;/a&gt;”，“&lt;a href=&quot;https://developer.apple.com/library/ios/documentation/Cocoa/Conceptual/CoreAnimation_guide/SettingUpLayerObjects/SettingUpLayerObjects.html#//apple_ref/doc/uid/TP40004514-CH13-SW12&quot;&gt;Setting Up Layer Ojbect&lt;/a&gt;”&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h3 id=&quot;layer的改变触发动画&quot;&gt;Layer的改变触发动画&lt;/h3&gt;
+
+&lt;p&gt;大多数通过Core Animation创建的动画都涉及修改layer的属性。像视图，layer对象都有能被修改的形状（bounds rectangle），位置(position)，透明度(opacity)，旋转(transform)和其他一些视觉导向的属性。对于这些属性中的大多数，改变属性从一个值到另一个值能创建一个隐式动画。你也可以明确的控制这些属性的值来达到你想要的动画效果。&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;关联章节：“&lt;a href=&quot;https://developer.apple.com/library/ios/documentation/Cocoa/Conceptual/CoreAnimation_guide/CreatingBasicAnimations/CreatingBasicAnimations.html#//apple_ref/doc/uid/TP40004514-CH3-SW1&quot;&gt;Animating Layer Content&lt;/a&gt;”,“&lt;a href=&quot;https://developer.apple.com/library/ios/documentation/Cocoa/Conceptual/CoreAnimation_guide/AdvancedAnimationTricks/AdvancedAnimationTricks.html#//apple_ref/doc/uid/TP40004514-CH8-SW1&quot;&gt;Advanced Animation Tricks&lt;/a&gt;”，“&lt;a href=&quot;https://developer.apple.com/library/ios/documentation/Cocoa/Conceptual/CoreAnimation_guide/Introduction/Introduction.html&quot;&gt;Layer Style Property Animation&lt;/a&gt;”，“&lt;a href=&quot;https://developer.apple.com/library/ios/documentation/Cocoa/Conceptual/CoreAnimation_guide/AnimatableProperties/AnimatableProperties.html#//apple_ref/doc/uid/TP40004514-CH11-SW1&quot;&gt;Animatable Properties&lt;/a&gt;”&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h3 id=&quot;layers能被组织成层次结构&quot;&gt;Layers能被组织成层次结构&lt;/h3&gt;
+
+&lt;p&gt;Layers能被整理成层次机构来创建父子关系。layers的组织结构影响它们所管理的视觉内容，这在某种程度上类似于视图。一组layers的层次结构能作用在视图上从而反映出视图的层次结构。你同样可以在你的应用中添加单独添加有层次结构的layers来扩展能超出你的视图之外的视觉内容。&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;关联章节：“&lt;a href=&quot;https://developer.apple.com/library/ios/documentation/Cocoa/Conceptual/CoreAnimation_guide/BuildingaLayerHierarchy/BuildingaLayerHierarchy.html#//apple_ref/doc/uid/TP40004514-CH6-SW2&quot;&gt;Building a Layer Hierarchy&lt;/a&gt;”&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h3 id=&quot;action使你能改变layer的默认行为&quot;&gt;Action使你能改变Layer的默认行为&lt;/h3&gt;
+
+&lt;p&gt;隐式Layer动画通过&lt;strong&gt;action对象&lt;/strong&gt;来实现，action对象是一个实现了一个预定义接口的一般对象。Core Animation一般通过action对象结合layer来实现默认的动画。你可以创建自己的action对象来实现自定义动画或者其它行为，然后把你的action对象分配给layer属性。当layer的属性值改变的时候，Core Animation会通知action对象来执行它的动作。&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;关联章节：“&lt;a href=&quot;https://developer.apple.com/library/ios/documentation/Cocoa/Conceptual/CoreAnimation_guide/ReactingtoLayerChanges/ReactingtoLayerChanges.html#//apple_ref/doc/uid/TP40004514-CH7-SW1&quot;&gt;Changing a Layer’s Default Behavior&lt;/a&gt;”&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h3 id=&quot;如何使用文档&quot;&gt;如何使用文档&lt;/h3&gt;
+
+&lt;p&gt;这个文档值特意为那些需要更好的控制它们程序中的动画或者想要通过layers来提高绘画表现的开发者准备的。它同样提供了iOS和OS X中关于layers与views之间的整合知识。iOS和OS X中layers和views的知识是不同的，在你创建高效的动画之前，理解这一点是很重要的。&lt;/p&gt;
+
+&lt;h3 id=&quot;前提&quot;&gt;前提&lt;/h3&gt;
+
+&lt;p&gt;你应该已经理解你的目标平台的视图结构，并且理解如何创建基于视图的动画。如果没有，你应该阅读一下文档之一：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;对于iOS应用程序，你应该了解*View Programming Guide for iOS *中所描述的视图结构。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;对于OS X应用程序，你应该了解&lt;em&gt;View Programming Guide&lt;/em&gt;中所描述的视图结构。&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;另请参阅&quot;&gt;另请参阅&lt;/h3&gt;
+
+&lt;p&gt;通过Core Animation实现具体类型的动画的实例，请看*Core Animation Cookbook *。&lt;/p&gt;</content><author><name>Gump Wang</name></author><summary type="html">最近在研究iOS动画，可是却找不到好的资料来学习，索性找来Core Animation的官方文档，一边翻译一边学习，如有不准确的地方，请参见Core Animation Programming Guide。</summary></entry></feed>
